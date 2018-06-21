@@ -1,0 +1,13 @@
+<company>
+    <companyname>AVA</companyname>
+    <B1Server></B1Server>
+    <B1Company>SBO-USDB</B1Company>
+    <B1User>manager</B1User>
+    <B1Password>manager</B1Password>
+    <B1LicenseServer>192.168.3.14:30015</B1LicenseServer>
+    <B1SLDServer>192.168.3.14:40000</B1SLDServer>
+    <B1DbType>MSSQL20124</B1DbType>
+    <B1DbUser>manager</B1DbUser>
+    <B1DbPassword>avatech</B1DbPassword>
+    <B1DbUseTrusted>True</B1DbUseTrusted>
+</company>
