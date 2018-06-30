@@ -9,6 +9,8 @@
     <version>0.1.0</version>
     <url>https://colorcoding.org/bobas/b1</url>
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <b1.version>9.2</b1.version>
     </properties>
