@@ -1,8 +1,9 @@
-package org.edi.businessone.bo;
+package org.edi.businessone.bo.stockdocument;
 
+import java.util.Date;
 import java.util.List;
 
-public interface IStockDocument {
+public interface IStockDocument<T extends IStockDocumentLine> {
 
     String getComanyName();
 
@@ -16,15 +17,21 @@ public interface IStockDocument {
 
     void setDocEntry(Integer value);
 
-    void setPostingDate(String value);
+    String getBusinessObjectCode();
 
-    String getDeliveryDate();
+    void setBusinessObjectCode(String value);
 
-    void setDeliveryDate(String value);
+    Date getPostingDate();
 
-    String getDocumentDate();
+    void setPostingDate(Date value);
 
-    void setDocumentDate(String value);
+    Date getDeliveryDate();
+
+    void setDeliveryDate(Date value);
+
+    Date getDocumentDate();
+
+    void setDocumentDate(Date value);
 
     String getReference1();
 
@@ -46,8 +53,8 @@ public interface IStockDocument {
 
     void setBaseDocumentEntry(Integer value);
 
-    List<IStockDocumentLine> getStockDocumentLines();
+    List<T> getStockDocumentLines();
 
-    void setStockDocumentLines(List<IStockDocumentLine> stockDocumentLines);
+    void setStockDocumentLines(List<T> stockDocumentLines);
 
 }

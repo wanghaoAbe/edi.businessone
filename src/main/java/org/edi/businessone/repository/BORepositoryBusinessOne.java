@@ -1,5 +1,6 @@
 package org.edi.businessone.repository;
 
+import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.IB1Connection;
 import com.sap.smb.sbo.api.*;
 
@@ -22,6 +23,19 @@ public class BORepositoryBusinessOne {
     private boolean useTrusted;
 
 
+    private ICompany company;
+
+    public ICompany getCompany() throws B1Exception{
+        if(null == company)
+            return this.connect();
+        else
+            return company;
+    }
+
+    public BORepositoryBusinessOne(){
+
+    }
+
     public BORepositoryBusinessOne(IB1Connection connection){
         this.server = connection.getServer();
         this.companyDB = connection.getCompanyDB();
@@ -36,10 +50,36 @@ public class BORepositoryBusinessOne {
         this.useTrusted = connection.isUseTrusted();
     }
 
-//    public ICompany connect(){
-//
-//    }
+    public ICompany connect()throws B1Exception {
+        try{
+            company = SBOCOMUtil.newCompany();
+            company.setServer("dbserver");
+            company.setCompanyDB("SBODemoGB");
+            company.setUserName("manager");
+            company.setPassword("Password");
+            company.setDbServerType(SBOCOMConstants.BoDataServerTypes_dst_MSSQL2012);
+            company.setUseTrusted(false);
+            company.setLanguage(SBOCOMConstants.BoSuppLangs_ln_English);
+            company.setDbUserName("sa");
+            company.setDbPassword("SQLPassword");
+            company.setSLDServer("SLDServer");
+            company.setLicenseServer("licenserver:30000");
 
+            int connectionResult = company.connect();
+            if (connectionResult == 0) {
+                System.out.println("Successfully connected to " + company.getCompanyName());
+            } else {
+                SBOErrorMessage errMsg = company.getLastError();
+                throw new B1Exception("Cannot connect to server: "
+                        + errMsg.getErrorMessage()
+                        + " "
+                        + errMsg.getErrorCode());
+            }
+            return company;
+        }catch (Exception e){
+            throw new B1Exception(e);
+        }
 
+    }
 
 }

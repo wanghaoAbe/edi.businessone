@@ -1,4 +1,4 @@
-package org.edi.businessone.bo;
+package org.edi.businessone.bo.stockdocument;
 
 import java.math.BigDecimal;
 
@@ -52,8 +52,6 @@ public interface IStockDocumentLine {
 
     void setDistributionRule5(String value);
 
-    void  setOriginalDocumentLineId(Integer value);
-
     String getItemCode();
 
     void setItemCode(String value);
@@ -70,10 +68,6 @@ public interface IStockDocumentLine {
 
     void setPrice(BigDecimal value);
 
-
-    String getWarehose();
-
-    void setWarehose(String value);
 
     String getBarCode1();
 
