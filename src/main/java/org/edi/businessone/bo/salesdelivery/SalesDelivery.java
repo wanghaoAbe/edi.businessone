@@ -1,4 +1,7 @@
 package org.edi.businessone.bo.salesdelivery;
 
-public class SalesDelivery {
+import org.edi.businessone.bo.stockdocument.StockDocument;
+
+public class SalesDelivery extends StockDocument<ISalesDeliveryLine> implements ISalesDelivery {
+
 }

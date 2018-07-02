@@ -1,4 +1,6 @@
 package org.edi.businessone.bo.salesdelivery;
 
-public interface ISalesDeliveryLine {
+import org.edi.businessone.bo.stockdocument.IStockDocumentLine;
+
+public interface ISalesDeliveryLine extends IStockDocumentLine {
 }

@@ -1,4 +1,7 @@
 package org.edi.businessone.bo.goodsissue;
 
-public class IGoodsIssue {
+import org.edi.businessone.bo.stockdocument.IStockDocument;
+
+public interface IGoodsIssue extends IStockDocument<IGoodsIssueLine> {
+
 }

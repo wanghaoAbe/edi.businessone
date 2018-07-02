@@ -1,4 +1,6 @@
 package org.edi.businessone.bo.goodsreceipt;
 
-public interface IGoodsReeipt {
+import org.edi.businessone.bo.stockdocument.IStockDocument;
+
+public interface IGoodsReceipt extends IStockDocument<IGoodsReceiptLine> {
 }

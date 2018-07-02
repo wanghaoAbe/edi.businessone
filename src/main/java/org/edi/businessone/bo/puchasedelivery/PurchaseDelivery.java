@@ -1,4 +1,6 @@
 package org.edi.businessone.bo.puchasedelivery;
 
-public class PurchaseDeliery {
+import org.edi.businessone.bo.stockdocument.StockDocument;
+
+public class PurchaseDelivery extends StockDocument<IPurchaseDeliveryLine> implements IPurchaseDelivery {
 }

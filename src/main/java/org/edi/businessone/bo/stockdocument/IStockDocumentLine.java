@@ -1,4 +1,4 @@
-package org.edi.businessone.bo;
+package org.edi.businessone.bo.stockdocument;
 
 import java.math.BigDecimal;
 
