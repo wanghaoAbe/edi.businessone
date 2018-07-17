@@ -14,6 +14,17 @@ public class B1Connection implements IB1Connection {
     private String dbUsername;
     private String dbPassword;
     private boolean useTrusted;
+    private String companyName;
+
+    @Override
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    @Override
+    public void setCompanyName(String value) {
+        this.companyName = value;
+    }
 
     public final String getServer() {
         return server;
@@ -51,7 +62,7 @@ public class B1Connection implements IB1Connection {
         return laguage;
     }
 
-    public final void setLaguage(int value){
+    public final void setLanguage(int value){
         this.laguage = value;
     }
 
@@ -67,39 +78,45 @@ public class B1Connection implements IB1Connection {
         return sldServer;
     }
 
-    public final void setSldServer(String value){
+    @Override
+    public final void setSLDServer(String value){
         this.sldServer = value;
     }
 
-    public final int getDbServerType() {
+    public final int getDBServerType() {
         return dbServiceType;
     }
 
-    public final void setDbServiceType(int value){
+    public final void setDBServerType(int value){
         this.dbServiceType = value;
     }
 
-    public final String getDbUserName() {
+    public final String getDBUserName() {
         return dbUsername;
     }
 
-    public final void setDbUsername(String value){
+    public final void setDBUserName(String value){
         this.dbUsername = value;
     }
 
-    public final String getDbPassword() {
+    public final String getDBPassword() {
         return dbPassword;
     }
 
-    public final void setDbPassword(String value){
+    public final void setDBPassword(String value){
         this.dbPassword = value;
     }
 
-    public final boolean isUseTrusted() {
+    @Override
+    public boolean getIsUserTrusted() {
+        return false;
+    }
+
+    public final boolean getIsUseTrusted() {
         return useTrusted;
     }
 
-    public final void setUseTrusted(boolean value){
+    public final void setIsUserTrusted(boolean value){
         this.useTrusted = value;
     }
 }

@@ -17,23 +17,33 @@ public class BORepositoryBusinessOne {
     private int laguage;
     private String licenseServer;
     private String sldServer;
-    private int dbServiceType;
+    private int dbServerType;
     private String dbUsername;
     private String dbPassword;
     private boolean useTrusted;
 
+    private static volatile  BORepositoryBusinessOne boRepositoryBusinessOne;
+    private static ICompany company;
 
-    private ICompany company;
+    private BORepositoryBusinessOne(){}
 
-    public ICompany getCompany() throws B1Exception{
-        if(null == company)
-            return this.connect();
-        else
-            return company;
+    public static BORepositoryBusinessOne getInstance(){
+        if(null == company){
+            synchronized (BORepositoryBusinessOne.class){
+                if(null == company){
+                    boRepositoryBusinessOne = new BORepositoryBusinessOne();
+                }
+            }
+        }
+        return boRepositoryBusinessOne;
     }
 
-    public BORepositoryBusinessOne(){
-
+    public ICompany getCompany() throws B1Exception{
+        if(null == company) {
+            return this.connect();
+        }else {
+            return company;
+        }
     }
 
     public BORepositoryBusinessOne(IB1Connection connection){
@@ -44,10 +54,10 @@ public class BORepositoryBusinessOne {
         this.laguage = connection.getLanguage();
         this.licenseServer = connection.getLicenseServer();
         this.sldServer = connection.getSLDServer();
-        this.dbServiceType = connection.getDbServerType();
-        this.dbUsername = connection.getDbUserName();
-        this.dbPassword = connection.getDbPassword();
-        this.useTrusted = connection.isUseTrusted();
+        this.dbServerType = connection.getDBServerType();
+        this.dbUsername = connection.getDBUserName();
+        this.dbPassword = connection.getPassword();
+        this.useTrusted = connection.getIsUserTrusted();
     }
 
     public ICompany connect()throws B1Exception {
