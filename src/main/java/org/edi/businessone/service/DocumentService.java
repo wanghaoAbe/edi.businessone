@@ -10,7 +10,9 @@ import org.edi.businessone.bo.salesdelivery.ISalesDelivery;
 import org.edi.businessone.bo.stocktransfer.IStockTransfer;
 import org.edi.businessone.data.B1ErrorCode;
 import org.edi.businessone.data.DocumentType;
+import org.edi.businessone.db.B1Connection;
 import org.edi.businessone.db.B1Exception;
+import org.edi.businessone.db.IB1Connection;
 import org.edi.businessone.repository.BORepositoryBusinessOne;
 import org.edi.freamwork.operation.IOpResult;
 import org.edi.freamwork.operation.OpResult;
@@ -18,8 +20,6 @@ import org.edi.freamwork.operation.OpResult;
 import javax.swing.text.Document;
 
 public class DocumentService implements IDocumentService {
-
-
 
     /**
      * 生成库存发货/生产收货
@@ -29,18 +29,19 @@ public class DocumentService implements IDocumentService {
     @Override
     public IOpResult createGoodsIssue(IGoodsIssue order) {
         IOpResult opRst = new OpResult();
+        //获取B1连接
+        IB1Connection dbConnection  = new B1Connection();
         try
         {
-            if(null == order)
+            if(null == order) {
                 throw new B1Exception("订单信息为空");
-
-            BORepositoryBusinessOne repositoryBusinessOne = new BORepositoryBusinessOne();
+            }
+            BORepositoryBusinessOne repositoryBusinessOne = new BORepositoryBusinessOne(dbConnection);
             IDocuments document = SBOCOMUtil.newDocuments(repositoryBusinessOne.getCompany(),DocumentType.GOODS_ISSUES);
 
             document.setDocDate(order.getDocumentDate());
             document.setTaxDate(order.getDeliveryDate());
             document.setVatDate(order.getPostingDate());
-
             for (IGoodsIssueLine item:order.getStockDocumentLines()) {
                 document.getLines().add();
                 document.getLines().setItemCode(item.getItemCode());
@@ -59,10 +60,9 @@ public class DocumentService implements IDocumentService {
             opRst.setCode(rt);
             opRst.setMessage(repositoryBusinessOne.getCompany().getLastErrorCode() + ":"
                              + repositoryBusinessOne.getCompany().getLastErrorDescription());
-            if(rt == 0)
+            if(rt == 0) {
                 opRst.setThirdId(repositoryBusinessOne.getCompany().getNewObjectKey());
-
-
+            }
         }catch (Exception e){
             opRst.setCode(B1ErrorCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());

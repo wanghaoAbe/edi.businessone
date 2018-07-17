@@ -5,12 +5,19 @@ package org.edi.businessone.db;
  * @date 2018/6/21
  */
 public interface IB1Connection {
+
+    String getCompanyName();
+
+    void setCompanyName(String value);
+
     /**
      * 服务器地址
      *
      * @return
      */
     String getServer();
+
+    void setServer(String value);
 
     /**
      * 连接的公司
@@ -19,6 +26,7 @@ public interface IB1Connection {
      */
     String getCompanyDB();
 
+    void setCompanyDB(String value);
     /**
      * 用户
      *
@@ -26,6 +34,7 @@ public interface IB1Connection {
      */
     String getUserName();
 
+    void setUserName(String value);
     /**
      * 密码
      *
@@ -33,6 +42,7 @@ public interface IB1Connection {
      */
     String getPassword();
 
+    void setPassword(String value);
     /**
      * 语言
      *
@@ -40,6 +50,7 @@ public interface IB1Connection {
      */
     int getLanguage();
 
+    void setLanguage(int value);
     /**
      * 许可服务
      *
@@ -47,6 +58,7 @@ public interface IB1Connection {
      */
     String getLicenseServer();
 
+    void setLicenseServer(String value);
     /**
      * 架构服务
      *
@@ -54,31 +66,37 @@ public interface IB1Connection {
      */
     String getSLDServer();
 
+    void setSLDServer(String value);
     /**
      * 数据库类型
      *
      * @return
      */
-    int getDbServerType();
+    int getDBServerType();
 
+    void setDBServerType(int value);
     /**
      * 数据库用户
      *
      * @return
      */
-    String getDbUserName();
+    String getDBUserName();
 
+    void setDBUserName(String value);
     /**
      * 数据库密码
      *
      * @return
      */
-    String getDbPassword();
+    String getDBPassword();
 
+    void setDBPassword(String value);
     /**
      * 使用信任连接
      *
      * @return
      */
-    boolean isUseTrusted();
+    boolean getIsUserTrusted();
+
+    void setIsUserTrusted(boolean value);
 }

@@ -5,14 +5,25 @@ package org.edi.businessone;
  * @date 2018/6/7
  */
 public class MyConfiguration {
+
+    /**
+     * B1 company 配置文件名
+     */
+    public final static String B1_COMPANY_RESOURCE_NAME = "b1company.xml";
+
+    /**
+     * 公司节点
+     */
+    public final static String COMPANY_NODE_NAME = "company";
+
     /**
      * 配置项目-B1-公司名称
      */
     public final static String CONFIG_ITEM_B1_COMPANY_NAME = "B1CompanyName";
     /**
-     * 配置项目-B1-服务地址
+     * 配置项目-B1-数据库服务地址
      */
-    public final static String CONFIG_ITEM_B1_SERVER = "B1Server";
+    public final static String CONFIG_ITEM_B1_DB_SERVER = "DBServer";
     /**
      * 配置项目-B1-数据库名称
      */
