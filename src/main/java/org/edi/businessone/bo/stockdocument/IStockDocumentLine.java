@@ -60,13 +60,13 @@ public interface IStockDocumentLine {
 
     void setItemDescription(String value);
 
-    BigDecimal getQuantity();
+    Double getQuantity();
 
-    void setQuantity(BigDecimal value);
+    void setQuantity(Double value);
 
-    BigDecimal getPrice();
+    Double getPrice();
 
-    void setPrice(BigDecimal value);
+    void setPrice(Double value);
 
 
     String getBarCode1();

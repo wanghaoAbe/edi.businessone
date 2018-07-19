@@ -7,13 +7,13 @@ public class B1Connection implements IB1Connection {
     private String companyDB;
     private String userName;
     private String password;
-    private int laguage;
+    private Integer laguage;
     private String licenseServer;
     private String sldServer;
-    private int dbServiceType;
+    private Integer dbServiceType;
     private String dbUsername;
     private String dbPassword;
-    private boolean useTrusted;
+    private Boolean useTrusted;
     private String companyName;
 
     @Override
@@ -26,54 +26,67 @@ public class B1Connection implements IB1Connection {
         this.companyName = value;
     }
 
+    @Override
     public final String getServer() {
         return server;
     }
 
+    @Override
     public final void setServer(String value){
         this.server = value;
     }
 
+    @Override
     public final String getCompanyDB() {
         return companyDB;
     }
 
+    @Override
     public final void setCompanyDB(String value){
         this.companyDB = value;
     }
 
+    @Override
     public final String getUserName() {
         return userName;
     }
 
+    @Override
     public final void setUserName(String value){
         this.userName = value;
     }
 
+    @Override
     public final String getPassword() {
         return password;
     }
 
+    @Override
     public final void setPassword(String value){
-        this.password = password;
+        this.password = value;
     }
 
-    public final int getLanguage() {
+    @Override
+    public final Integer getLanguage() {
         return laguage;
     }
 
-    public final void setLanguage(int value){
+    @Override
+    public final void setLanguage(Integer value){
         this.laguage = value;
     }
 
+    @Override
     public final String getLicenseServer() {
         return licenseServer;
     }
 
+    @Override
     public final void setLicenseServer(String value){
         this.licenseServer = value;
     }
 
+    @Override
     public final String getSLDServer() {
         return sldServer;
     }
@@ -83,40 +96,48 @@ public class B1Connection implements IB1Connection {
         this.sldServer = value;
     }
 
-    public final int getDBServerType() {
+    @Override
+    public final Integer getDBServerType() {
         return dbServiceType;
     }
 
-    public final void setDBServerType(int value){
+    @Override
+    public final void setDBServerType(Integer value){
         this.dbServiceType = value;
     }
 
+    @Override
     public final String getDBUserName() {
         return dbUsername;
     }
 
+    @Override
     public final void setDBUserName(String value){
         this.dbUsername = value;
     }
 
+    @Override
     public final String getDBPassword() {
         return dbPassword;
     }
 
+    @Override
     public final void setDBPassword(String value){
         this.dbPassword = value;
     }
 
     @Override
-    public boolean getIsUserTrusted() {
-        return false;
-    }
-
-    public final boolean getIsUseTrusted() {
+    public final Boolean getIsUserTrusted() {
         return useTrusted;
     }
 
-    public final void setIsUserTrusted(boolean value){
+    @Override
+    public final void setIsUserTrusted(Boolean value){
         this.useTrusted = value;
+    }
+
+    @Override
+    public void setIsUserTrusted(String value) {
+        this.setIsUserTrusted(Boolean.valueOf(value));
     }
 }

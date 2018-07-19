@@ -8,9 +8,10 @@
         <B1Password>manager</B1Password>
         <B1LicenseServer>192.168.3.14:30015</B1LicenseServer>
         <B1SLDServer>192.168.3.14:40000</B1SLDServer>
-        <B1DbType>MSSQL20124</B1DbType>
+        <B1DbType>dst_MSSQL2012</B1DbType>
         <B1DbUser>manager</B1DbUser>
         <B1DbPassword>avatech</B1DbPassword>
+        <B1Language>ln_Chinese</B1Language>
         <B1DbUseTrusted>True</B1DbUseTrusted>
     </company>
     <company>
@@ -21,9 +22,10 @@
         <B1Password>manager</B1Password>
         <B1LicenseServer>192.168.3.14:30015</B1LicenseServer>
         <B1SLDServer>192.168.3.14:40000</B1SLDServer>
-        <B1DbType>MSSQL20124</B1DbType>
+        <B1DbType>dst_MSSQL20124</B1DbType>
         <B1DbUser>manager</B1DbUser>
         <B1DbPassword>avatech</B1DbPassword>
+        <B1Language>ln_Chinese</B1Language>
         <B1DbUseTrusted>True</B1DbUseTrusted>
     </company>
 </companys>
