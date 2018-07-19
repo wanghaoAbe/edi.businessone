@@ -168,25 +168,25 @@ public class StockDocumentLine implements IStockDocumentLine {
         this.itemDescription = value;
     }
 
-    private BigDecimal quantity;
+    private Double quantity;
     @Override
-    public BigDecimal getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
     @Override
-    public void setQuantity(BigDecimal value) {
+    public void setQuantity(Double value) {
         this.quantity = value;
     }
 
-    private BigDecimal price;
+    private Double price;
     @Override
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
     @Override
-    public void setPrice(BigDecimal value) {
+    public void setPrice(Double value) {
         this.price = value;
     }
 

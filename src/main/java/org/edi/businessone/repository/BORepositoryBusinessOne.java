@@ -14,39 +14,29 @@ public class BORepositoryBusinessOne {
     private String companyDB;
     private String userName;
     private String password;
-    private int laguage;
+    private Integer laguage;
     private String licenseServer;
     private String sldServer;
-    private int dbServerType;
+    private Integer dbServerType;
     private String dbUsername;
     private String dbPassword;
-    private boolean useTrusted;
+    private Boolean useTrusted;
 
     private static volatile  BORepositoryBusinessOne boRepositoryBusinessOne;
     private static ICompany company;
 
-    private BORepositoryBusinessOne(){}
-
-    public static BORepositoryBusinessOne getInstance(){
+    public static BORepositoryBusinessOne getInstance(IB1Connection ib1Connection){
         if(null == company){
             synchronized (BORepositoryBusinessOne.class){
-                if(null == company){
-                    boRepositoryBusinessOne = new BORepositoryBusinessOne();
+                if(null == company || !company.getCompanyName().equals(ib1Connection.getCompanyName())){
+                    boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
                 }
             }
         }
         return boRepositoryBusinessOne;
     }
 
-    public ICompany getCompany() throws B1Exception{
-        if(null == company) {
-            return this.connect();
-        }else {
-            return company;
-        }
-    }
-
-    public BORepositoryBusinessOne(IB1Connection connection){
+    private BORepositoryBusinessOne(IB1Connection connection){
         this.server = connection.getServer();
         this.companyDB = connection.getCompanyDB();
         this.userName = connection.getUserName();
@@ -60,20 +50,28 @@ public class BORepositoryBusinessOne {
         this.useTrusted = connection.getIsUserTrusted();
     }
 
+    public ICompany getCompany() throws B1Exception{
+        if(null == company) {
+            return this.connect();
+        }else {
+            return company;
+        }
+    }
+
     public ICompany connect()throws B1Exception {
         try{
             company = SBOCOMUtil.newCompany();
-            company.setServer("dbserver");
-            company.setCompanyDB("SBODemoGB");
-            company.setUserName("manager");
-            company.setPassword("Password");
-            company.setDbServerType(SBOCOMConstants.BoDataServerTypes_dst_MSSQL2012);
-            company.setUseTrusted(false);
-            company.setLanguage(SBOCOMConstants.BoSuppLangs_ln_English);
-            company.setDbUserName("sa");
-            company.setDbPassword("SQLPassword");
-            company.setSLDServer("SLDServer");
-            company.setLicenseServer("licenserver:30000");
+            company.setServer(this.server);
+            company.setCompanyDB(this.companyDB);
+            company.setUserName(this.userName);
+            company.setPassword(this.password);
+            company.setDbServerType(this.dbServerType);
+            company.setUseTrusted(this.useTrusted);
+            company.setLanguage(this.laguage);
+            company.setDbUserName(this.dbUsername);
+            company.setDbPassword(this.dbPassword);
+            company.setSLDServer(this.sldServer);
+            company.setLicenseServer(this.licenseServer);
 
             int connectionResult = company.connect();
             if (connectionResult == 0) {
@@ -89,7 +87,6 @@ public class BORepositoryBusinessOne {
         }catch (Exception e){
             throw new B1Exception(e);
         }
-
     }
 
 }

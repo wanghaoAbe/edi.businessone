@@ -48,9 +48,9 @@ public interface IB1Connection {
      *
      * @return
      */
-    int getLanguage();
+    Integer getLanguage();
 
-    void setLanguage(int value);
+    void setLanguage(Integer value);
     /**
      * 许可服务
      *
@@ -72,9 +72,9 @@ public interface IB1Connection {
      *
      * @return
      */
-    int getDBServerType();
+    Integer getDBServerType();
 
-    void setDBServerType(int value);
+    void setDBServerType(Integer value);
     /**
      * 数据库用户
      *
@@ -96,7 +96,9 @@ public interface IB1Connection {
      *
      * @return
      */
-    boolean getIsUserTrusted();
+    Boolean getIsUserTrusted();
 
-    void setIsUserTrusted(boolean value);
+    void setIsUserTrusted(Boolean value);
+
+    void setIsUserTrusted(String value);
 }

@@ -60,4 +60,9 @@ public class MyConfiguration {
      * 配置项目-B1-数据库使用信任
      */
     public final static String CONFIG_ITEM_B1_DB_USE_TRUSTED = "B1DbUseTrusted";
+
+    /**
+     * 配置项目-B1-语言
+     */
+    public final static String CONFIG_ITEM_B1_LANGUAGE = "B1Language";
 }
