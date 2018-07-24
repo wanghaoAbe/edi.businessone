@@ -27,7 +27,7 @@ public class SBOEnumeration {
         return valueMap;
     }
 
-    public static Map<String, List<KeyValue>> createSBOCommonData (){
+    private static Map<String, List<KeyValue>> createSBOCommonData (){
         Map<String, List<KeyValue>> valueMap = new HashMap<>();
         List<KeyValue> keyValues;
         for (Field field : SBOCOMConstants.class.getDeclaredFields()) {
@@ -66,7 +66,7 @@ public class SBOEnumeration {
                 }
             }
         }
-       throw new DataConvertException(OpDescription.SBO_DATA_CONVERT_ERROR);
+       throw new DataConvertException(B1ErrorDescription.SBO_DATA_CONVERT_ERROR);
     }
 
     public static Integer valueOf(boolean value) {
