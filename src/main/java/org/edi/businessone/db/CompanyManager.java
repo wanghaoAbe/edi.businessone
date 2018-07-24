@@ -6,6 +6,7 @@ import org.edi.businessone.MyConfiguration;
 import org.edi.businessone.data.SBOClassData;
 import org.edi.businessone.data.SBOEnumeration;
 import org.edi.freamwork.configuration.ConfigException;
+import org.springframework.stereotype.Component;
 import sun.invoke.empty.Empty;
 
 import java.io.ByteArrayInputStream;
@@ -19,15 +20,16 @@ import java.util.List;
  * @author Fancy
  * @date 2018/7/17
  */
+@Component(value = "companyManager")
 public class CompanyManager {
 
-    private static List<IB1Connection> b1Connections = new ArrayList<IB1Connection>();
+    private static List<IB1Connection> b1Connections = new ArrayList<>();
 
     /**
      * 获取B1连接配置
      * @return B1公司连接信息集合
      */
-    public List<IB1Connection> getB1Connection() throws ConfigException{
+    private List<IB1Connection> getB1Connection() throws ConfigException{
         List<IB1Connection> b1Connections = new ArrayList<>() ;
         IB1Connection b1Connection;
         SAXReader reader = new SAXReader();
