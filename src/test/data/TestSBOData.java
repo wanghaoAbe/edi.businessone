@@ -12,7 +12,7 @@ public class TestSBOData extends TestCase{
 
     @Test
     public void testEnumeration(){
-        SBOEnumeration.createSBOCommonData();
+        //SBOEnumeration.createSBOCommonData();
 
     }
 }

@@ -64,6 +64,11 @@
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.edi</groupId>
+            <artifactId>edi.stocktask</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 
 </project>
