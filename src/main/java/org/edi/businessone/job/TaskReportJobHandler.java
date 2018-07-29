@@ -33,7 +33,7 @@ import java.util.List;
 @Component
 public class TaskReportJobHandler extends IJobHandler {
 
-//    @Autowired
+    @Autowired
     private IBORepositoryStockReport boRepositoryStockReport;
     //private IBORepositoryStockReport boRepositoryStockReport = new BOReposirotyStockReport();
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
