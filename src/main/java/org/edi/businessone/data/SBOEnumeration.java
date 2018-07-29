@@ -1,7 +1,6 @@
 package org.edi.businessone.data;
 
 import com.sap.smb.sbo.api.SBOCOMConstants;
-import org.edi.businessone.db.B1Exception;
 import org.edi.freamwork.data.DataConvertException;
 import org.edi.freamwork.data.keyValue.KeyValue;
 
@@ -66,7 +65,7 @@ public class SBOEnumeration {
                 }
             }
         }
-       throw new DataConvertException(B1ErrorDescription.SBO_DATA_CONVERT_ERROR);
+       throw new DataConvertException(B1OpResultDescription.SBO_DATA_CONVERT_ERROR);
     }
 
     public static Integer valueOf(boolean value) {

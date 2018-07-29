@@ -1,12 +1,9 @@
 package org.edi.businessone.service;
 
-import org.edi.businessone.data.B1ErrorDescription;
-import org.edi.businessone.data.DocumentType;
+import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
-
-import javax.swing.text.Document;
 
 /**
  * 草稿单据服务
@@ -16,7 +13,7 @@ public class DraftService implements IStockDocumentService {
     @Override
     public IOpResult createDocuments(IStockReport document) {
         String[] types = document.getBaseDocumentType().split("-");
-        if(types.length<=1 || types[1].isEmpty()) throw new BusinessException(B1ErrorDescription.SBO_ORDER_BASE_TYPE_FORMAT_ERROR);
+        if(types.length<=1 || types[1].isEmpty()) throw new BusinessException(B1OpResultDescription.SBO_ORDER_BASE_TYPE_FORMAT_ERROR);
 
         switch (types[2]){
             case "15":return createSalesDelivery(document);

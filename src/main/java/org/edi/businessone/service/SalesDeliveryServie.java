@@ -3,8 +3,8 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
-import org.edi.businessone.data.B1ErrorCode;
-import org.edi.businessone.data.B1ErrorDescription;
+import org.edi.businessone.data.B1OpResultCode;
+import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
@@ -16,10 +16,11 @@ import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
+
 public class SalesDeliveryServie implements IStockDocumentService {
 
-    @Autowired
-    private CompanyManager companyManager;
+    private CompanyManager companyManager = new CompanyManager();
 
 
     /**
@@ -33,16 +34,16 @@ public class SalesDeliveryServie implements IStockDocumentService {
         try
         {
             if(null == order) {
-                throw new B1Exception(B1ErrorDescription.SBO_ORDER_IS_EMPTY);
+                throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.SALES_DELIVERY);
 
-            document.setDocDate(order.getDocumentDate());
-            document.setTaxDate(order.getDeliveryDate());
-            document.setVatDate(order.getPostingDate());
+            document.setDocDate(Date.valueOf(order.getDocumentDate()) );
+            document.setTaxDate(Date.valueOf(order.getDeliveryDate()));
+            document.setVatDate(Date.valueOf(order.getPostingDate()));
             document.setComments(order.getRemarks());
 
             for (IStockReportItem item:order.getStockReportItems()) {
@@ -67,7 +68,7 @@ public class SalesDeliveryServie implements IStockDocumentService {
             }
             company.disconnect();
         }catch (Exception e){
-            opRst.setCode(B1ErrorCode.EXCEPTION_CODE);
+            opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
         }
         return opRst;

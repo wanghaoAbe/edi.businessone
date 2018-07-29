@@ -1,13 +1,12 @@
 package org.edi.businessone.service;
 
 
-import org.edi.businessone.data.B1ErrorDescription;
+import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
 import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.springframework.stereotype.Component;
 
-@Component(value = "documentServiceFactory")
 public class DocumentServiceFactory {
 
     private IStockDocumentService service;
@@ -23,7 +22,7 @@ public class DocumentServiceFactory {
             case DocumentType.PURCHASE_RETURN_DRAFT:
             case DocumentType.SALES_DELIVERY_DRAFT:
             case DocumentType.SALES_RETURN_DRAFT: service = new DraftService();break;
-            default:throw new BusinessException(B1ErrorDescription.SBO_ORDER_BASE_TYPE_IS_EMPTY);
+            default:throw new BusinessException(B1OpResultDescription.SBO_ORDER_BASE_TYPE_IS_EMPTY);
         }
         return service;
     }
