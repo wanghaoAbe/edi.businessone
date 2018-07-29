@@ -2,7 +2,7 @@ package org.edi.businessone.data;
 
 import org.edi.freamwork.data.operation.OpResultDescription;
 
-public class B1ErrorDescription extends OpResultDescription {
+public class B1OpResultDescription extends OpResultDescription {
 
     public final static String SBO_DATA_CONVERT_ERROR = "SBO数据类型获取失败";
 

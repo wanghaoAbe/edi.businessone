@@ -3,8 +3,8 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IStockTransfer;
 import com.sap.smb.sbo.api.SBOCOMUtil;
-import org.edi.businessone.data.B1ErrorCode;
-import org.edi.businessone.data.B1ErrorDescription;
+import org.edi.businessone.data.B1OpResultCode;
+import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
@@ -16,10 +16,11 @@ import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
+
 public class StockTransferService implements IStockDocumentService {
 
-    @Autowired
-    private CompanyManager companyManager;
+    private CompanyManager companyManager = new CompanyManager();
 
     /**
      * 生成库存转储单
@@ -32,16 +33,16 @@ public class StockTransferService implements IStockDocumentService {
         try
         {
             if(null == order) {
-                throw new B1Exception(B1ErrorDescription.SBO_ORDER_IS_EMPTY);
+                throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
             IStockTransfer document = SBOCOMUtil.newStockTransfer(company,DocumentType.STOCK_TRANSFER);
 
-            document.setDocDate(order.getDocumentDate());
-            document.setTaxDate(order.getDeliveryDate());
-            document.setDueDate(order.getPostingDate());
+            document.setDocDate(Date.valueOf(order.getDocumentDate()) );
+            document.setTaxDate(Date.valueOf(order.getDeliveryDate()));
+            document.setDueDate(Date.valueOf(order.getPostingDate()));
             document.setComments(order.getRemarks());
 
             for (IStockReportItem item:order.getStockReportItems()) {
@@ -67,7 +68,7 @@ public class StockTransferService implements IStockDocumentService {
             }
             company.disconnect();
         }catch (Exception e){
-            opRst.setCode(B1ErrorCode.EXCEPTION_CODE);
+            opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
         }
         return opRst;
