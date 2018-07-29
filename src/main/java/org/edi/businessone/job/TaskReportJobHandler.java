@@ -33,8 +33,9 @@ import java.util.List;
 @Component
 public class TaskReportJobHandler extends IJobHandler {
 
-    private IBORepositoryStockReport boRepositoryStockReport = new BOReposirotyStockReport();
-
+    @Autowired
+    private IBORepositoryStockReport boRepositoryStockReport;
+    //private IBORepositoryStockReport boRepositoryStockReport = new BOReposirotyStockReport();
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
 
 
@@ -60,7 +61,7 @@ public class TaskReportJobHandler extends IJobHandler {
             }
             return SUCCESS;
         }catch (Exception e){
-            XxlJobLogger.log("单据生成发生异常：{0}",e.getMessage());
+            XxlJobLogger.log("单据生成发生异常：{0}/[{1}]",e.getMessage(),e);
             return ReturnT.FAIL;
         }
     }

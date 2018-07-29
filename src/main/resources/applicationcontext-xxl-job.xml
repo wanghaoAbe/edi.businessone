@@ -20,6 +20,9 @@
 
     <!-- 配置01、JobHandler 扫描路径 -->
     <context:component-scan base-package="org.edi.businessone.job" />
+    <context:component-scan base-package="org.edi.businessone.repository" />
+    <context:component-scan base-package="org.edi.stocktask.repository"></context:component-scan>
+    <context:component-scan base-package="org.edi.stocktask.util"></context:component-scan>
 
     <!-- 配置02、执行器 -->
     <bean id="xxlJobExecutor" class="com.xxl.job.core.executor.XxlJobExecutor" init-method="start" destroy-method="destroy" >
@@ -38,6 +41,23 @@
         <!-- 日志保存天数[选填]，值大于3时生效 -->
         <property name="logRetentionDays" value="${xxl.job.executor.logretentiondays}" />
     </bean>
-
-
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property name="url" value="jdbc:sqlserver://192.168.3.14;DatabaseName=StockManageDB"/>
+        <property name="username" value="sa"/>
+        <property name="password" value="avatech"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis.xml" />
+        <property name="mapperLocations" value="classpath:mappers/*.xml"></property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.edi.stocktask.mapper" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 </beans>

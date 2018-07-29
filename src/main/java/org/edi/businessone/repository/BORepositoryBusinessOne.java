@@ -23,6 +23,7 @@ public class BORepositoryBusinessOne {
     private Boolean useTrusted;
 
     private static volatile  BORepositoryBusinessOne boRepositoryBusinessOne;
+
     private static ICompany company;
 
     public static BORepositoryBusinessOne getInstance(IB1Connection ib1Connection){
