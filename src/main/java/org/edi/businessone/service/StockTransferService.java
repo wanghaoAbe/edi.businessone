@@ -53,8 +53,8 @@ public class StockTransferService implements IStockDocumentService {
                 document.getLines().setPrice(item.getPrice());
                 document.getLines().setWarehouseCode(item.getToWarehouse());
                 document.getLines().setFromWarehouseCode(item.getFromWarehose());
-                if(String.valueOf(DocumentType.PRODUCE_ORDER).equals(order.getBaseDocumentType())){
-                    document.getLines().setBaseType(DocumentType.PRODUCE_ORDER);
+                if(String.valueOf(DocumentType.STOCK_TRANSFER).equals(order.getBaseDocumentType())){
+                    document.getLines().setBaseType(DocumentType.STOCK_TRANSFER);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
