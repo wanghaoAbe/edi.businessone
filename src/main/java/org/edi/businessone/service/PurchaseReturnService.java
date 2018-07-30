@@ -14,20 +14,17 @@ import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
 
-public class SalesDeliveryServie implements IStockDocumentService {
+/**
+ * @author Fancy
+ * @date 2018/7/30
+ */
+public class PurchaseReturnService implements IStockDocumentService {
 
     private CompanyManager companyManager = new CompanyManager();
 
-
-    /**
-     * 生成销售交货单
-     * @param order 销售交货
-     * @return 操作结果
-     */
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
@@ -39,13 +36,13 @@ public class SalesDeliveryServie implements IStockDocumentService {
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
-            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.SALES_DELIVERY);
+            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PURCHASE_RETURN);
 
+            //document.setCardCode(order.get);
             document.setDocDate(Date.valueOf(order.getDocumentDate()) );
             document.setTaxDate(Date.valueOf(order.getDeliveryDate()));
             document.setVatDate(Date.valueOf(order.getPostingDate()));
             document.setComments(order.getRemarks());
-
             for (IStockReportItem item:order.getStockReportItems()) {
                 document.getLines().add();
                 document.getLines().setItemCode(item.getItemCode());
@@ -53,8 +50,8 @@ public class SalesDeliveryServie implements IStockDocumentService {
                 document.getLines().setQuantity(item.getQuantity());
                 document.getLines().setPrice(item.getPrice());
                 document.getLines().setWarehouseCode(item.getToWarehouse());
-                if(String.valueOf(DocumentType.SALES_ORDER).equals(order.getBaseDocumentType())){
-                    document.getLines().setBaseType(DocumentType.SALES_ORDER);
+                if(String.valueOf(DocumentType.PURCHASE_DELIVERY).equals(order.getBaseDocumentType())){
+                    document.getLines().setBaseType(DocumentType.PURCHASE_DELIVERY);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }

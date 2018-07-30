@@ -32,7 +32,7 @@ public class TaskReportJobHandler extends IJobHandler {
 
     @Autowired
     private IBORepositoryStockReport boRepositoryStockReport;
-    //private IBORepositoryStockReport boRepositoryStockReport = new BOReposirotyStockReport();
+
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
 
 
@@ -43,22 +43,22 @@ public class TaskReportJobHandler extends IJobHandler {
         {
             List<IStockReport> stockReports = boRepositoryStockReport.fetchUnSyncStockReport();
             if(stockReports != null && stockReports.size() > 0){
-                XxlJobLogger.log(String.format("获取到{0}条未清任务汇报.",stockReports.size()));
+                XxlJobLogger.log(String.format("获取到%d条未清任务汇报.",stockReports.size()));
                 IStockDocumentService service;
                 for (IStockReport stockReport:stockReports) {
                     service = documentServiceFactory.getServiceInstance(stockReport);
                     IOpResult result =service.createDocuments(stockReport);
                     if(B1OpResultCode.OK==result.getCode()){
-                        XxlJobLogger.log(String.format("[{0}]号任务汇报生成成功，B1单据号[{1}]",stockReport.getDocEntry()),result.getThirdId());
+                        XxlJobLogger.log(String.format("[%d]号任务汇报生成成功，B1单据号[%d]",stockReport.getDocEntry()),result.getThirdId());
                         boRepositoryStockReport.UpdateStockReportDocStatus(result.getThirdId(),stockReport.getDocEntry());
                     }else{
-                        XxlJobLogger.log(String.format("[{0}]号任务汇报生成失败，失败原因：{1}",stockReport.getDocEntry(),result.getMessage()));
+                        XxlJobLogger.log(String.format("[%d]号任务汇报生成失败，失败原因：%s",stockReport.getDocEntry(),result.getMessage()));
                     }
                 }
             }
             return SUCCESS;
         }catch (Exception e){
-            XxlJobLogger.log("单据生成发生异常：{0}/[{1}]",e.getMessage(),e);
+            XxlJobLogger.log("单据生成发生异常：{0}",e);
             return ReturnT.FAIL;
         }
     }

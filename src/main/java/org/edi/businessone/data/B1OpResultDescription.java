@@ -8,7 +8,7 @@ public class B1OpResultDescription extends OpResultDescription {
 
     public final static String SBO_ORDER_IS_EMPTY = "订单信息为空";
 
-    public final static String SBO_ORDER_BASE_TYPE_IS_EMPTY = "订单的基于类型为空";
+    public final static String SBO_ORDER_BASE_TYPE_IS_EMPTY_OR_INVALID = "订单的基于类型无效或为空";
 
     public final static String SBO_ORDER_BASE_TYPE_FORMAT_ERROR = "订单的基于类型格式错误";
 }

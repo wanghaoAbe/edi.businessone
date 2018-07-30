@@ -50,7 +50,7 @@ public class GoodsReceiptsService implements IStockDocumentService {
                 document.getLines().setItemDescription(item.getItemDescription());
                 document.getLines().setQuantity(item.getQuantity());
                 document.getLines().setPrice(item.getPrice());
-                document.getLines().setWarehouseCode(item.getFromWarehose());
+                document.getLines().setWarehouseCode(item.getToWarehouse());
                 if(String.valueOf(DocumentType.GOODS_RECEIPTS).equals(order.getBaseDocumentType())){
                     document.getLines().setBaseType(DocumentType.GOODS_RECEIPTS);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());

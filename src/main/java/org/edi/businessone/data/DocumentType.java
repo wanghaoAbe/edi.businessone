@@ -55,6 +55,10 @@ public class DocumentType {
     public static final Integer GOODS_ISSUES = 60;
 
     /**
+     * 草稿
+     */
+    public static final Integer DRAFT = 112;
+    /**
      * 库存转储
      */
     public static final Integer STOCK_TRANSFER = 67;
@@ -94,6 +98,11 @@ public class DocumentType {
      * 库存发货草稿
      */
     public static final String GOODS_ISSUES_DRAFT = "112-60";
+
+    /**
+     * 库存转储草稿
+     */
+    public static final String STOCK_TRANSFER_DRAFT = "112-67";
 
 
 }
