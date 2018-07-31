@@ -5,6 +5,7 @@ import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
 import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
+import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.service.DocumentServiceFactory;
 import org.edi.businessone.service.IStockDocumentService;
 import org.edi.freamwork.data.operation.IOpResult;
@@ -50,16 +51,16 @@ public class TaskReportJobHandler extends IJobHandler {
                     service = documentServiceFactory.getServiceInstance(stockReport);
                     IOpResult result =service.createDocuments(stockReport);
                     if(B1OpResultCode.OK==result.getCode()){
-                        XxlJobLogger.log(String.format("[%d]号任务汇报生成成功，B1单据号[%d]",stockReport.getDocEntry()),result.getThirdId());
+                        XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_SUCCESS_INFO,stockReport.getDocEntry()),result.getThirdId());
                         boRepositoryStockReport.UpdateStockReportDocStatus(result.getThirdId(),stockReport.getDocEntry());
                     }else{
-                        XxlJobLogger.log(String.format("[%d]号任务汇报生成失败，失败原因：%s",stockReport.getDocEntry(),result.getMessage()));
+                        XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_FAILED_INFO,stockReport.getDocEntry(),result.getMessage()));
                     }
                 }
             }
             return SUCCESS;
         }catch (Exception e){
-            XxlJobLogger.log("单据生成发生异常：{0}",e);
+            XxlJobLogger.log(B1OpResultDescription.SBO_CREATE_ORDER_EXCEPTION,e);
             return ReturnT.FAIL;
         }
     }
