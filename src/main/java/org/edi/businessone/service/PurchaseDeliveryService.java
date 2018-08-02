@@ -52,9 +52,9 @@ public class PurchaseDeliveryService implements IStockDocumentService {
                 document.getLines().setItemDescription(item.getItemDescription());
                 document.getLines().setQuantity(item.getQuantity());
                 document.getLines().setPrice(item.getPrice());
-                //document.getLines().setWarehouseCode(item.get());
-                if(String.valueOf(DocumentType.PRODUCE_ORDER).equals(order.getBaseDocumentType())){
-                    document.getLines().setBaseType(DocumentType.PRODUCE_ORDER);
+                document.getLines().setWarehouseCode(item.getToWarehouse());
+                if(String.valueOf(DocumentType.PURCHASE_ORDER).equals(order.getBaseDocumentType())){
+                    document.getLines().setBaseType(DocumentType.PURCHASE_ORDER);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
