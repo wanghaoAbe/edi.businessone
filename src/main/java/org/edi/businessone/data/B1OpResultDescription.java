@@ -14,6 +14,8 @@ public class B1OpResultDescription extends OpResultDescription {
 
     public final static String SBO_ORDER_BASE_TYPE_FORMAT_ERROR = "订单的基于类型格式错误";
 
+    public final static String SBO_GET_ORDERS = "获取到%d条未清任务汇报";
+
     public final static String SBO_CREATE_ORDER_SUCCESS_INFO= "[%d]号任务汇报生成成功，B1单据号[%d]";
 
     public final static String SBO_CREATE_ORDER_FAILED_INFO = "[%d]号任务汇报生成失败，失败原因：%s";

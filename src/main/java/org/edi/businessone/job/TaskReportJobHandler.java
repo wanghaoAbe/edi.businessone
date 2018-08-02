@@ -45,14 +45,15 @@ public class TaskReportJobHandler extends IJobHandler {
         {
             List<StockReport> stockReports = boRepositoryStockReport.fetchUnSyncStockReport();
             if(stockReports != null && stockReports.size() > 0){
-                XxlJobLogger.log(String.format("获取到%d条未清任务汇报.",stockReports.size()));
+                XxlJobLogger.log(String.format(B1OpResultDescription.SBO_GET_ORDERS,stockReports.size()));
                 IStockDocumentService service;
-                for (IStockReport stockReport:stockReports) {
+                for (StockReport stockReport:stockReports) {
                     service = documentServiceFactory.getServiceInstance(stockReport);
                     IOpResult result =service.createDocuments(stockReport);
                     if(B1OpResultCode.OK==result.getCode()){
                         XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_SUCCESS_INFO,stockReport.getDocEntry()),result.getThirdId());
-                        boRepositoryStockReport.UpdateStockReportDocStatus(result.getThirdId(),stockReport.getDocEntry());
+                        stockReport.setB1DocEntry(result.getThirdId());
+                        boRepositoryStockReport.updateStockReportDocStatus(stockReport);
                     }else{
                         XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_FAILED_INFO,stockReport.getDocEntry(),result.getMessage()));
                     }
