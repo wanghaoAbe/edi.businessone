@@ -10,10 +10,12 @@ import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
 import org.edi.businessone.repository.BORepositoryBusinessOne;
+import org.edi.freamwork.data.EnumConstData;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
+import org.edi.stocktask.bo.stockreport.StockReportMaterialItem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Date;
@@ -55,6 +57,20 @@ public class GoodsReceiptsService implements IStockDocumentService {
                     document.getLines().setBaseType(DocumentType.GOODS_RECEIPTS);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
+                }
+                if(EnumConstData.YES.equals(item.getBatchNumberManagement())){
+                    for (StockReportMaterialItem materialItem:item.getStockReportMaterialItems()) {
+                        document.getLines().getBatchNumbers().add();
+                        document.getLines().getBatchNumbers().setBatchNumber(materialItem.getBatchNumber());
+                        document.getLines().getBatchNumbers().setQuantity(materialItem.getQuantity());
+                    }
+                }
+                if(EnumConstData.YES.equals(item.getSerialNumberManagement())){
+                    for (StockReportMaterialItem materialItem:item.getStockReportMaterialItems()) {
+                        document.getLines().getSerialNumbers().add();
+                        document.getLines().getSerialNumbers().setInternalSerialNumber(materialItem.getSerialNumber());
+                        document.getLines().getSerialNumbers().setQuantity(materialItem.getQuantity());
+                    }
                 }
             }
             int rt = document.add();
