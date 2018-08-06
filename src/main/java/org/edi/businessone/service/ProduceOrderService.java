@@ -54,6 +54,7 @@ public class ProduceOrderService implements IStockDocumentService{
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
+
             }
             int rt = document.add();
             opRst.setCode(rt);
