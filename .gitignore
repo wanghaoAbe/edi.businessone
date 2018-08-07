@@ -32,3 +32,7 @@ hs_err_pid*
 .idea
 .cache
 *.iml
+.project
+.settings/
+.classpath
+*.prefs
