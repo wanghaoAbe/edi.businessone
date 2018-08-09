@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <companys>
     <company>
-        <B1CompanyName>AVA</B1CompanyName>
-        <DBServer>192.168.3.14</DBServer>
-        <B1Company>SBO-USDB</B1Company>
-        <B1User>manager</B1User>
-        <B1Password>manager</B1Password>
-        <B1LicenseServer>192.168.3.14:30015</B1LicenseServer>
-        <B1SLDServer>192.168.3.14:40000</B1SLDServer>
+        <B1CompanyName>SHYJ</B1CompanyName>
+        <DBServer>192.168.1.70</DBServer>
+        <B1Company>TEST_HT024_02</B1Company>
+        <B1User>AVACLOUD\ht024099</B1User>
+        <B1Password>Aa123456!</B1Password>
+        <B1LicenseServer>192.168.1.70:30000</B1LicenseServer>
+        <B1SLDServer>192.168.1.70:30015</B1SLDServer>
         <B1DbType>dst_MSSQL2012</B1DbType>
-        <B1DbUser>manager</B1DbUser>
-        <B1DbPassword>avatech</B1DbPassword>
-        <B1Language>ln_Chinese</B1Language>
-        <B1DbUseTrusted>True</B1DbUseTrusted>
-    </company>
-    <company>
-        <B1CompanyName>YSYJ</B1CompanyName>
-        <DBServer>192.168.3.14</DBServer>
-        <B1Company>SBO-USDB</B1Company>
-        <B1User>manager</B1User>
-        <B1Password>manager</B1Password>
-        <B1LicenseServer>192.168.3.14:30015</B1LicenseServer>
-        <B1SLDServer>192.168.3.14:40000</B1SLDServer>
-        <B1DbType>dst_MSSQL20124</B1DbType>
-        <B1DbUser>manager</B1DbUser>
-        <B1DbPassword>avatech</B1DbPassword>
+        <B1DbUser>avasa6</B1DbUser>
+        <B1DbPassword>AVAtechAVA2018!</B1DbPassword>
         <B1Language>ln_Chinese</B1Language>
         <B1DbUseTrusted>True</B1DbUseTrusted>
     </company>

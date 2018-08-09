@@ -1,5 +1,6 @@
 package org.edi.businessone.repository;
 
+import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.IB1Connection;
 import com.sap.smb.sbo.api.*;
@@ -9,6 +10,8 @@ import com.sap.smb.sbo.api.*;
  * @date 2018/6/21
  */
 public class BORepositoryBusinessOne {
+
+
 
     private String server;
     private String companyDB;
@@ -29,11 +32,12 @@ public class BORepositoryBusinessOne {
     public static BORepositoryBusinessOne getInstance(IB1Connection ib1Connection){
         if(null == company){
             synchronized (BORepositoryBusinessOne.class){
-                if(null == company || !company.getCompanyName().equals(ib1Connection.getCompanyName())){
+                if(null == company || !company.isConnected() || !company.getCompanyName().equals(ib1Connection.getCompanyName())){
                     boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
                 }
             }
         }
+        XxlJobLogger.log("获取到B1连接对象");
         return boRepositoryBusinessOne;
     }
 
@@ -52,7 +56,8 @@ public class BORepositoryBusinessOne {
     }
 
     public ICompany getCompany() throws B1Exception{
-        if(null == company) {
+        XxlJobLogger.log(company.toString()+company.isConnected());
+        if(null == company || !company.isConnected()) {
             return this.connect();
         }else {
             return company;
@@ -76,7 +81,7 @@ public class BORepositoryBusinessOne {
 
             int connectionResult = company.connect();
             if (connectionResult == 0) {
-                System.out.println("Successfully connected to " + company.getCompanyName());
+                XxlJobLogger.log("Successfully connected to " + company.getCompanyName());
             } else {
                 SBOErrorMessage errMsg = company.getLastError();
                 throw new B1Exception("Cannot connect to server: "

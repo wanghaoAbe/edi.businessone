@@ -11,6 +11,7 @@ import org.edi.businessone.service.IStockDocumentService;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.StockReport;
+import org.edi.stocktask.repository.BORepositoryStockReport;
 import org.edi.stocktask.repository.IBORepositoryStockReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ import java.util.List;
 public class TaskReportJobHandler extends IJobHandler {
 
     @Autowired
-    private IBORepositoryStockReport boRepositoryStockReport;
+    private BORepositoryStockReport boRepositoryStockReport;
 
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
 

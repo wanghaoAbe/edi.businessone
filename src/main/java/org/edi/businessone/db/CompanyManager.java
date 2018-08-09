@@ -1,19 +1,19 @@
 package org.edi.businessone.db;
 
-import org.dom4j.*;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.edi.businessone.MyConfiguration;
 import org.edi.businessone.data.SBOClassData;
 import org.edi.businessone.data.SBOEnumeration;
 import org.edi.freamwork.configuration.ConfigException;
 import org.springframework.stereotype.Component;
-import sun.invoke.empty.Empty;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,7 +67,7 @@ public class CompanyManager {
      */
     public IB1Connection getB1ConnInstance(String companyName) throws ConfigException{
         IB1Connection connection = new B1Connection();
-        if(b1Connections == null){
+        if(b1Connections == null || b1Connections.size() == 0){
             b1Connections = getB1Connection();
         }
         for (IB1Connection conn:b1Connections) {

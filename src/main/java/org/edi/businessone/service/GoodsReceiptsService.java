@@ -10,6 +10,7 @@ import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
 import org.edi.businessone.repository.BORepositoryBusinessOne;
+import org.edi.freamwork.data.DateConvert;
 import org.edi.freamwork.data.EnumConstData;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
@@ -42,9 +43,9 @@ public class GoodsReceiptsService implements IStockDocumentService {
             ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.GOODS_RECEIPTS);
 
-            document.setDocDate(Date.valueOf(order.getDocumentDate()) );
-            document.setTaxDate(Date.valueOf(order.getDeliveryDate()));
-            document.setVatDate(Date.valueOf(order.getPostingDate()));
+            document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
+            document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
+            document.setVatDate(DateConvert.toDate(order.getPostingDate()));
             document.setComments(order.getRemarks());
             for (IStockReportItem item:order.getStockReportItems()) {
                 document.getLines().add();

@@ -3,6 +3,7 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
+import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -10,6 +11,7 @@ import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
 import org.edi.businessone.repository.BORepositoryBusinessOne;
+import org.edi.freamwork.data.DateConvert;
 import org.edi.freamwork.data.EnumConstData;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
@@ -38,16 +40,25 @@ public class PurchaseDeliveryService implements IStockDocumentService {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
+            XxlJobLogger.log(order.toString());
             //获取B1连接
+            XxlJobLogger.log("获取B1连接信息");
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
+            XxlJobLogger.log("获取B1连接对象");
             ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
-            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PURCHASE_DELIVERY);
 
-            //document.setCardCode(order.get);
-            document.setDocDate(Date.valueOf(order.getDocumentDate()) );
-            document.setTaxDate(Date.valueOf(order.getDeliveryDate()));
-            document.setVatDate(Date.valueOf(order.getPostingDate()));
+            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PURCHASE_DELIVERY);
+            XxlJobLogger.log("获取单据对象");
+            document.setCardCode(order.getBusinessPartnerCode());
+            XxlJobLogger.log(order.getDocumentDate());
+            XxlJobLogger.log(DateConvert.toDate(order.getDocumentDate()).toString());
+            document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
+            document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
+            document.setVatDate(DateConvert.toDate(order.getPostingDate()));
+            XxlJobLogger.log(order.getPostingDate());
             document.setComments(order.getRemarks());
+            XxlJobLogger.log(order.getRemarks());
+            XxlJobLogger.log("表头赋值完成");
             for (IStockReportItem item:order.getStockReportItems()) {
                 document.getLines().add();
                 document.getLines().setItemCode(item.getItemCode());
@@ -76,6 +87,7 @@ public class PurchaseDeliveryService implements IStockDocumentService {
                         document.getLines().getSerialNumbers().setQuantity(materialItem.getQuantity());
                     }
                 }
+                XxlJobLogger.log("表明细赋值完成");
             }
             int rt = document.add();
             opRst.setCode(rt);
@@ -83,11 +95,14 @@ public class PurchaseDeliveryService implements IStockDocumentService {
                     + company.getLastErrorDescription());
             if(rt == 0) {
                 opRst.setThirdId(company.getNewObjectKey());
+            }else {
+                XxlJobLogger.log("生成失败，"+company.getLastErrorDescription());
             }
-            company.disconnect();
+            //company.disconnect();
         }catch (Exception e){
+            e.printStackTrace();
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
-            opRst.setMessage(e.getMessage());
+            opRst.setMessage(e.getMessage() +"|"+ e.getCause());
         }
         return opRst;
     }
