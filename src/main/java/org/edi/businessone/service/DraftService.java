@@ -2,7 +2,6 @@ package org.edi.businessone.service;
 
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
-import com.sap.smb.sbo.api.IStockTransfer;
 import com.sap.smb.sbo.api.SBOCOMUtil;
 import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
@@ -12,14 +11,10 @@ import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
 import org.edi.businessone.repository.BORepositoryBusinessOne;
-import org.edi.freamwork.data.DateConvert;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
-import org.edi.stocktask.bo.stockreport.IStockReportItem;
-
-import java.sql.Date;
 
 /**
  * 草稿单据服务
