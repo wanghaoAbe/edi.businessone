@@ -25,23 +25,27 @@ public class BORepositoryBusinessOne {
     private String dbPassword;
     private Boolean useTrusted;
 
-    private static volatile  BORepositoryBusinessOne boRepositoryBusinessOne;
+    private  BORepositoryBusinessOne boRepositoryBusinessOne;
 
-    private static ICompany company;
+    private  ICompany company;
 
-    public static BORepositoryBusinessOne getInstance(IB1Connection ib1Connection){
-        if(null == company){
-            synchronized (BORepositoryBusinessOne.class){
-                if(null == company || !company.isConnected() || !company.getCompanyName().equals(ib1Connection.getCompanyName())){
-                    boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
-                }
-            }
-        }
-        XxlJobLogger.log("获取到B1连接对象");
-        return boRepositoryBusinessOne;
-    }
+//    public static BORepositoryBusinessOne getInstance(IB1Connection ib1Connection){
+////        if(null == company){
+////            synchronized (BORepositoryBusinessOne.class){
+////                if(null == company  || !company.getCompanyName().equals(ib1Connection.getCompanyName())){
+////                    boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
+////                }
+////            }
+////        }
+//        if(boRepositoryBusinessOne == null){
+//            boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
+//            XxlJobLogger.log("重新获取到B1连接信息"+ib1Connection.toString());
+//        }
+//        XxlJobLogger.log("获取到B1连接信息"+ib1Connection.toString());
+//        return boRepositoryBusinessOne;
+//    }
 
-    private BORepositoryBusinessOne(IB1Connection connection){
+    public BORepositoryBusinessOne(IB1Connection connection){
         this.server = connection.getServer();
         this.companyDB = connection.getCompanyDB();
         this.userName = connection.getUserName();
@@ -56,11 +60,70 @@ public class BORepositoryBusinessOne {
     }
 
     public ICompany getCompany() throws B1Exception{
-        XxlJobLogger.log(company.toString()+company.isConnected());
-        if(null == company || !company.isConnected()) {
-            return this.connect();
-        }else {
+        try{
+           if(company == null){
+               company = SBOCOMUtil.newCompany();
+           }else if(company.isConnected()){
+               return company;
+           }
+            company = SBOCOMUtil.newCompany();
+            company.setServer(this.server);
+            company.setCompanyDB(this.companyDB);
+            company.setUserName(this.userName);
+            company.setPassword(this.password);
+            company.setDbServerType(this.dbServerType);
+            company.setUseTrusted(this.useTrusted);
+            company.setLanguage(this.laguage);
+            company.setDbUserName(this.dbUsername);
+            company.setDbPassword(this.dbPassword);
+            company.setSLDServer(this.sldServer);
+            company.setLicenseServer(this.licenseServer);
+
+            int connectionResult = company.connect();
+            if (connectionResult == 0) {
+                XxlJobLogger.log("Successfully connected to " + company.getCompanyName());
+            } else {
+                SBOErrorMessage errMsg = company.getLastError();
+                throw new B1Exception("Cannot connect to server: "
+                        + errMsg.getErrorMessage()
+                        + " "
+                        + errMsg.getErrorCode());
+            }
             return company;
+        }catch (Exception e){
+            XxlJobLogger.log(e);
+            throw new B1Exception(e);
+        }
+//        if(null == company || !company.isConnected()) {
+//            XxlJobLogger.log("开始连接");
+//            return this.connect();
+//        }else {
+//            XxlJobLogger.log(company.toString()+company.isConnected());
+//            return company;
+//        }
+//        if(null == company ) {
+//            XxlJobLogger.log("开始连接");
+//            return this.connect();
+//        }else {
+//            XxlJobLogger.log("再次连接");
+//            company.setPassword("123");
+//            XxlJobLogger.log(company.getPassword());
+//            //XxlJobLogger.log(company.getContextCookie());
+//
+//            if(company.isConnected() == null ||!company.isConnected()){
+//                return this.connect();
+//            }
+//            XxlJobLogger.log(company.toString()+company.isConnected());
+//            return company;
+//        }
+    }
+
+    public void dispose(){
+        if(company!=null ){
+           if(company.isConnected()){
+               company.disconnect();
+               company.release();
+           }
         }
     }
 
@@ -91,6 +154,7 @@ public class BORepositoryBusinessOne {
             }
             return company;
         }catch (Exception e){
+            XxlJobLogger.log(e);
             throw new B1Exception(e);
         }
     }

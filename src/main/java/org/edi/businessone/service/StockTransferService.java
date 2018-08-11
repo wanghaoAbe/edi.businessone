@@ -3,6 +3,7 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IStockTransfer;
 import com.sap.smb.sbo.api.SBOCOMUtil;
+import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -31,23 +32,27 @@ public class StockTransferService implements IStockDocumentService {
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
+        ICompany company = null;
         try
         {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
+            XxlJobLogger.log(String.format(B1OpResultDescription.SBO_TRANSREQUEST_CREATE_TRANSORDER,order.getDocEntry()));
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
-            ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
+            BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne(dbConnection);
+            //company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
+            company = boRepositoryBusinessOne.connect();
             IStockTransfer document = SBOCOMUtil.newStockTransfer(company,DocumentType.STOCK_TRANSFER);
 
             document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
             document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
             document.setDueDate(DateConvert.toDate(order.getPostingDate()));
+
             document.setComments(order.getRemarks());
 
             for (IStockReportItem item:order.getStockReportItems()) {
-                document.getLines().add();
                 document.getLines().setItemCode(item.getItemCode());
                 document.getLines().setItemDescription(item.getItemDescription());
                 document.getLines().setQuantity(item.getQuantity());
@@ -59,6 +64,7 @@ public class StockTransferService implements IStockDocumentService {
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
+                document.getLines().add();
             }
             int rt = document.add();
             opRst.setCode(rt);
@@ -67,10 +73,13 @@ public class StockTransferService implements IStockDocumentService {
             if(rt == 0) {
                 opRst.setThirdId(company.getNewObjectKey());
             }
-            company.disconnect();
         }catch (Exception e){
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
+        }finally {
+//            if(company!=null&&company.isConnected()){
+//                company.disconnect();
+//            }
         }
         return opRst;
     }

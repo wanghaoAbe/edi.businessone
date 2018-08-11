@@ -1,5 +1,6 @@
 package org.edi.businessone.service;
 
+import com.sap.smb.sbo.api.Company;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
@@ -35,18 +36,21 @@ public class PurchaseDeliveryService implements IStockDocumentService {
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
+        ICompany company = null;
         try
         {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
-            XxlJobLogger.log(order.toString());
+            XxlJobLogger.log(String.format(B1OpResultDescription.SBO_PUCHASEORDER_CREATE_PURCHASEDELIVERY_DRAFT,order.getDocEntry()));
             //获取B1连接
             XxlJobLogger.log("获取B1连接信息");
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             XxlJobLogger.log("获取B1连接对象");
-            ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
 
+            BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne(dbConnection);
+            //company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
+            company = boRepositoryBusinessOne.connect();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PURCHASE_DELIVERY);
             XxlJobLogger.log("获取单据对象");
             document.setCardCode(order.getBusinessPartnerCode());
@@ -60,7 +64,7 @@ public class PurchaseDeliveryService implements IStockDocumentService {
             XxlJobLogger.log(order.getRemarks());
             XxlJobLogger.log("表头赋值完成");
             for (IStockReportItem item:order.getStockReportItems()) {
-                document.getLines().add();
+
                 document.getLines().setItemCode(item.getItemCode());
                 document.getLines().setItemDescription(item.getItemDescription());
                 document.getLines().setQuantity(item.getQuantity());
@@ -87,22 +91,32 @@ public class PurchaseDeliveryService implements IStockDocumentService {
                         document.getLines().getSerialNumbers().setQuantity(materialItem.getQuantity());
                     }
                 }
+                document.getLines().add();
                 XxlJobLogger.log("表明细赋值完成");
             }
             int rt = document.add();
-            opRst.setCode(rt);
-            opRst.setMessage(company.getLastErrorCode() + ":"
-                    + company.getLastErrorDescription());
+
             if(rt == 0) {
+                opRst.setMessage("生成成功");
                 opRst.setThirdId(company.getNewObjectKey());
+                XxlJobLogger.log("生成成功"+company.getNewObjectKey()+"|"+company.getNewObjectCode());
             }else {
                 XxlJobLogger.log("生成失败，"+company.getLastErrorDescription());
+                opRst.setMessage(company.getLastErrorCode() + ":"
+                        + company.getLastErrorDescription());
             }
-            //company.disconnect();
+            opRst.setCode(rt);
+
         }catch (Exception e){
             e.printStackTrace();
+            XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage() +"|"+ e.getCause());
+        }
+        finally {
+//            company.disconnect();
+//            company.release();
+//            System.gc();
         }
         return opRst;
     }

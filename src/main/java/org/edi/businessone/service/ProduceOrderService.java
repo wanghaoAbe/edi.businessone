@@ -1,5 +1,6 @@
 package org.edi.businessone.service;
 
+import com.sap.smb.sbo.api.Company;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
@@ -28,6 +29,7 @@ public class ProduceOrderService implements IStockDocumentService{
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
+        ICompany company = null;
         try
         {
             if(null == order) {
@@ -35,7 +37,9 @@ public class ProduceOrderService implements IStockDocumentService{
             }
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
-            ICompany company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
+            BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne(dbConnection);
+            //company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
+            company = boRepositoryBusinessOne.connect();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PRODUCE_ORDER);
 
             document.setCardCode(order.getBusinessPartnerCode());
@@ -44,7 +48,6 @@ public class ProduceOrderService implements IStockDocumentService{
             document.setVatDate(DateConvert.toDate(order.getPostingDate()));
             document.setComments(order.getRemarks());
             for (IStockReportItem item:order.getStockReportItems()) {
-                document.getLines().add();
                 document.getLines().setItemCode(item.getItemCode());
                 document.getLines().setItemDescription(item.getItemDescription());
                 document.getLines().setQuantity(item.getQuantity());
@@ -55,7 +58,7 @@ public class ProduceOrderService implements IStockDocumentService{
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
-
+                document.getLines().add();
             }
             int rt = document.add();
             opRst.setCode(rt);
@@ -64,10 +67,14 @@ public class ProduceOrderService implements IStockDocumentService{
             if(rt == 0) {
                 opRst.setThirdId(company.getNewObjectKey());
             }
-            company.disconnect();
         }catch (Exception e){
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
+        }finally {
+            if(company!=null&&company.isConnected()){
+                company.disconnect();
+                company.release();
+            }
         }
         return opRst;
     }
