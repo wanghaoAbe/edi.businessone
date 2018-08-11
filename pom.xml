@@ -6,6 +6,7 @@
 
     <groupId>org.edi</groupId>
     <artifactId>edi.businessone</artifactId>
+    <packaging>war</packaging>
     <version>0.1.0</version>
     <url>https://colorcoding.org/bobas/b1</url>
     <properties>
@@ -18,7 +19,6 @@
         <repository>
             <id>ibas-maven</id>
             <name>ibas maven repository</name>
-            <url>http://maven.colorcoding.org/repository/maven-public/</url>
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
@@ -31,16 +31,7 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
-        <dependency>
-            <groupId>com.sap.b1</groupId>
-            <artifactId>sbowrapper</artifactId>
-            <version>${b1.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sap.b1</groupId>
-            <artifactId>sboapi</artifactId>
-            <version>${b1.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>

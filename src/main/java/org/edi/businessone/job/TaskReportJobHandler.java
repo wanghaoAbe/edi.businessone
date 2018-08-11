@@ -11,6 +11,7 @@ import org.edi.businessone.service.IStockDocumentService;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.StockReport;
+import org.edi.stocktask.repository.BORepositoryStockReport;
 import org.edi.stocktask.repository.IBORepositoryStockReport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,7 @@ import java.util.List;
 public class TaskReportJobHandler extends IJobHandler {
 
     @Autowired
-    private IBORepositoryStockReport boRepositoryStockReport;
+    private BORepositoryStockReport boRepositoryStockReport;
 
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
 
@@ -51,9 +52,13 @@ public class TaskReportJobHandler extends IJobHandler {
                     service = documentServiceFactory.getServiceInstance(stockReport);
                     IOpResult result =service.createDocuments(stockReport);
                     if(B1OpResultCode.OK==result.getCode()){
-                        XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_SUCCESS_INFO,stockReport.getDocEntry()),result.getThirdId());
+                        XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_SUCCESS_INFO,stockReport.getDocEntry(),result.getThirdId()));
                         stockReport.setB1DocEntry(result.getThirdId());
+                        stockReport.setDocumentStatus("C");
+                        XxlJobLogger.log("回写汇报状态");
+                        XxlJobLogger.log(stockReport.toString());
                         boRepositoryStockReport.updateStockReportDocStatus(stockReport);
+                        XxlJobLogger.log("回写汇报状态成功");
                     }else{
                         XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_FAILED_INFO,stockReport.getDocEntry(),result.getMessage()));
                     }
