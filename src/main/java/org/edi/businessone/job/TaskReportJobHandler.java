@@ -1,5 +1,6 @@
 package org.edi.businessone.job;
 
+import com.sap.smb.sbo.api.SBOCOMUtil;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.IJobHandler;
 import com.xxl.job.core.handler.annotation.JobHandler;
@@ -55,10 +56,8 @@ public class TaskReportJobHandler extends IJobHandler {
                         XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_SUCCESS_INFO,stockReport.getDocEntry(),result.getThirdId()));
                         stockReport.setB1DocEntry(result.getThirdId());
                         stockReport.setDocumentStatus("C");
-                        XxlJobLogger.log("回写汇报状态");
                         XxlJobLogger.log(stockReport.toString());
                         boRepositoryStockReport.updateStockReportDocStatus(stockReport);
-                        XxlJobLogger.log("回写汇报状态成功");
                     }else{
                         XxlJobLogger.log(String.format(B1OpResultDescription.SBO_CREATE_ORDER_FAILED_INFO,stockReport.getDocEntry(),result.getMessage()));
                     }
@@ -69,5 +68,6 @@ public class TaskReportJobHandler extends IJobHandler {
             XxlJobLogger.log(B1OpResultDescription.SBO_CREATE_ORDER_EXCEPTION,e);
             return ReturnT.FAIL;
         }
+
     }
 }

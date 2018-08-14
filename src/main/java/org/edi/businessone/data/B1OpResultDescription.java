@@ -24,11 +24,11 @@ public class B1OpResultDescription extends OpResultDescription {
 
     public final static String SBO_CAN_NOT_FIND_DRAFT = "未找到草稿单据%d";
 
-    public final static String SBO_PUCHASEORDER_CREATE_PURCHASEDELIVERY_DRAFT = "[%]号采购订单生成采购收货";
+    public final static String SBO_PUCHASEORDER_CREATE_PURCHASEDELIVERY_DRAFT = "[%d]号采购订单生成采购收货";
 
-    public final static String SBO_SALESORDER_CREATE_SALESDELIVERY = "[%]号销售订单生成销售交货";
+    public final static String SBO_SALESORDER_CREATE_SALESDELIVERY = "[%d]号销售订单生成销售交货";
 
-    public final static String SBO_TRANSREQUEST_CREATE_TRANSORDER = "[%]号库存转储请求生成库存转储单";
+    public final static String SBO_TRANSREQUEST_CREATE_TRANSORDER = "[%d]号库存转储请求生成库存转储单";
 
-    public final static String SBO_DRAFT_CREATE_ORDER = "[%]号草稿生成单据";
+    public final static String SBO_DRAFT_CREATE_ORDER = "[%d]号草稿生成单据";
 }

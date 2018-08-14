@@ -4,6 +4,7 @@ import com.sap.smb.sbo.api.Company;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
+import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -37,9 +38,11 @@ public class ProduceOrderService implements IStockDocumentService{
             }
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
-            BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne(dbConnection);
-            //company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
-            company = boRepositoryBusinessOne.connect();
+            company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
+            XxlJobLogger.log(String.valueOf(company.hashCode()));
+            //BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne();
+            //company = boRepositoryBusinessOne.connect();
+            //company = boRepositoryBusinessOne.getCompany();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PRODUCE_ORDER);
 
             document.setCardCode(order.getBusinessPartnerCode());
@@ -61,7 +64,7 @@ public class ProduceOrderService implements IStockDocumentService{
                 document.getLines().add();
             }
             int rt = document.add();
-            opRst.setCode(rt);
+            opRst.setCode(String.valueOf(rt));
             opRst.setMessage(company.getLastErrorCode() + ":"
                     + company.getLastErrorDescription());
             if(rt == 0) {
@@ -71,7 +74,7 @@ public class ProduceOrderService implements IStockDocumentService{
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
         }finally {
-            if(company!=null&&company.isConnected()){
+            if(company != null){
                 company.disconnect();
                 company.release();
             }
