@@ -11,10 +11,7 @@ import org.edi.stocktask.repository.BORepositoryStockReport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.management.openmbean.OpenDataException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -58,5 +55,11 @@ public class DocumentService {
             opResult.getResultObject().add(sboResult);
         }
         return opResult;
+    }
+
+    @GET
+    @Path("/hello")
+    public String hello(){
+        return  "hello word";
     }
 }
