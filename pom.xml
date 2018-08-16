@@ -8,7 +8,6 @@
     <artifactId>edi.businessone</artifactId>
     <packaging>war</packaging>
     <version>0.1.0</version>
-    <url>https://colorcoding.org/bobas/b1</url>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
