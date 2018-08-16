@@ -5,7 +5,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
-import org.edi.businessone.MyConfiguration;
+import org.edi.businessone.data.MyConfiguration;
 import org.edi.businessone.data.SBOClassData;
 import org.edi.businessone.data.SBOEnumeration;
 import org.edi.freamwork.configuration.ConfigException;

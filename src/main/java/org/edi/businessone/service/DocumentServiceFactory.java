@@ -5,7 +5,6 @@ import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
 import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
-import org.springframework.stereotype.Component;
 
 public class DocumentServiceFactory {
 
