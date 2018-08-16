@@ -6,6 +6,8 @@ import java.net.PortUnreachableException;
 
 public class B1OpResultDescription extends OpResultDescription {
 
+    public final static String OK = "OK";
+
     public final static String SBO_DATA_CONVERT_ERROR = "SBO数据类型获取失败";
 
     public final static String SBO_ORDER_IS_EMPTY = "订单信息为空";
@@ -13,8 +15,6 @@ public class B1OpResultDescription extends OpResultDescription {
     public final static String SBO_ORDER_BASE_TYPE_IS_EMPTY_OR_INVALID = "[%d]订单的基于类型无效或为空";
 
     public final static String SBO_ORDER_BASE_TYPE_FORMAT_ERROR = "订单的基于类型格式错误";
-
-    public final static String SBO_GET_ORDERS = "获取到%d条未清任务汇报";
 
     public final static String SBO_CREATE_ORDER_SUCCESS_INFO= "[%1$d]号任务汇报生成成功，B1单据号[%2$s]";
 

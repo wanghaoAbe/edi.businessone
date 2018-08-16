@@ -18,9 +18,6 @@ import org.edi.freamwork.data.operation.OpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
 import org.edi.stocktask.bo.stockreport.StockReportMaterialItem;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.sql.Date;
 
 public class SalesDeliveryServie implements IStockDocumentService {
 

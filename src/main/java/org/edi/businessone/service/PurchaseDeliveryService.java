@@ -1,6 +1,5 @@
 package org.edi.businessone.service;
 
-import com.sap.smb.sbo.api.Company;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
@@ -19,9 +18,6 @@ import org.edi.freamwork.data.operation.OpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
 import org.edi.stocktask.bo.stockreport.StockReportMaterialItem;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.sql.Date;
 
 public class PurchaseDeliveryService implements IStockDocumentService {
 

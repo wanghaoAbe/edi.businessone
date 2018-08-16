@@ -1,4 +1,4 @@
-package org.edi.businessone;
+package org.edi.businessone.data;
 
 /**
  * @author Fancy
