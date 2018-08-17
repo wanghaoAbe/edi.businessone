@@ -23,7 +23,6 @@ public class DocumentService {
 
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
 
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

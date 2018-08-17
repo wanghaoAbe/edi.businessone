@@ -16,13 +16,15 @@
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>org.edi.businessone.util.RestApplication</param-value>
+            <!--<param-name>jersey.config.server.provider.packages</param-name>-->
+            <!--<param-value>org.edi.businessone.service</param-value>-->
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
 
     <servlet-mapping>
         <servlet-name>JAX-RS Servlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-
 </web-app>
