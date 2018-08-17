@@ -31,7 +31,6 @@ public class BORepositoryBusinessOne {
             synchronized (BORepositoryBusinessOne.class) {
                 if (null == boRepositoryBusinessOne) {
                     boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
-                    XxlJobLogger.log("初始化B1仓库" );
                 }
             }
         return boRepositoryBusinessOne;

@@ -48,7 +48,6 @@ public class StockTransferService implements IStockDocumentService {
             document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
             document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
             document.setDueDate(DateConvert.toDate(order.getPostingDate()));
-
             document.setComments(order.getRemarks());
 
             for (IStockReportItem item:order.getStockReportItems()) {
