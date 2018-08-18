@@ -40,14 +40,13 @@ public class StockTransferService implements IStockDocumentService {
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
-            XxlJobLogger.log(String.valueOf(boRepositoryBusinessOne.hashCode()));
             company = boRepositoryBusinessOne.getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             IStockTransfer document = SBOCOMUtil.newStockTransfer(company,DocumentType.STOCK_TRANSFER);
 
             document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
             document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
             document.setDueDate(DateConvert.toDate(order.getPostingDate()));
+
             document.setComments(order.getRemarks());
 
             for (IStockReportItem item:order.getStockReportItems()) {
@@ -57,8 +56,8 @@ public class StockTransferService implements IStockDocumentService {
                 document.getLines().setPrice(item.getPrice());
                 document.getLines().setWarehouseCode(item.getToWarehouse());
                 document.getLines().setFromWarehouseCode(item.getFromWarehose());
-                if(String.valueOf(DocumentType.STOCK_TRANSFER).equals(order.getBaseDocumentType())){
-                    document.getLines().setBaseType(DocumentType.STOCK_TRANSFER);
+                if(String.valueOf(DocumentType.STOCK_TRANSFER_REQUEST).equals(order.getBaseDocumentType())){
+                    document.getLines().setBaseType(DocumentType.STOCK_TRANSFER_REQUEST);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
@@ -75,7 +74,8 @@ public class StockTransferService implements IStockDocumentService {
             XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
             }

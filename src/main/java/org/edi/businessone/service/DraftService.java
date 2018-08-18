@@ -37,13 +37,11 @@ public class DraftService implements IStockDocumentService {
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
-            XxlJobLogger.log(String.valueOf(boRepositoryBusinessOne.hashCode()));
             company = boRepositoryBusinessOne.getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             IDocuments document = SBOCOMUtil.newDocuments(company, DocumentType.DRAFT);
             document.setDocObjectCode(getBusinessObject(order.getBaseDocumentType()));
             if(document.getByKey(order.getBaseDocumentEntry())){
-                int rt = document.add();
+                int rt = document.saveDraftToDocument();
                 opRst.setCode(String.valueOf(rt));
                 opRst.setMessage(company.getLastErrorCode() + ":"
                         + company.getLastErrorDescription());
@@ -58,7 +56,8 @@ public class DraftService implements IStockDocumentService {
             XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
             }

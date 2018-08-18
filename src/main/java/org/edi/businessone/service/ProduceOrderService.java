@@ -30,6 +30,7 @@ public class ProduceOrderService implements IStockDocumentService{
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
+        BORepositoryBusinessOne boRepositoryBusinessOne = null;
         ICompany company = null;
         try
         {
@@ -40,9 +41,8 @@ public class ProduceOrderService implements IStockDocumentService{
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
             XxlJobLogger.log(String.valueOf(company.hashCode()));
-            //BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne();
-            //company = boRepositoryBusinessOne.connect();
-            //company = boRepositoryBusinessOne.getCompany();
+            boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
+            company = boRepositoryBusinessOne.getCompany();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PRODUCE_ORDER);
 
             document.setCardCode(order.getBusinessPartnerCode());
@@ -73,7 +73,8 @@ public class ProduceOrderService implements IStockDocumentService{
         }catch (Exception e){
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
                 company.release();

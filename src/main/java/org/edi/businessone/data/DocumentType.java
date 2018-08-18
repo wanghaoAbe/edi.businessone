@@ -63,6 +63,8 @@ public class DocumentType {
      */
     public static final Integer STOCK_TRANSFER = 67;
 
+    public static final Integer STOCK_TRANSFER_REQUEST = 1250000001;
+
     /**
      * 生产订单
      */

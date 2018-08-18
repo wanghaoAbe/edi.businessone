@@ -44,9 +44,7 @@ public class PurchaseDeliveryService implements IStockDocumentService {
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             XxlJobLogger.log("获取B1连接信息");
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
-            XxlJobLogger.log(String.valueOf(boRepositoryBusinessOne.hashCode()));
             company = boRepositoryBusinessOne.getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             XxlJobLogger.log(company.getCompanyDB());
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PURCHASE_DELIVERY);
             XxlJobLogger.log("获取单据对象");
@@ -106,7 +104,8 @@ public class PurchaseDeliveryService implements IStockDocumentService {
             XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage() +"|"+ e.getCause());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
             }

@@ -8,6 +8,8 @@ public class B1OpResultDescription extends OpResultDescription {
 
     public final static String OK = "OK";
 
+    public final static String SBO_INNER_ERROR = "内部异常";
+
     public final static String SBO_DATA_CONVERT_ERROR = "SBO数据类型获取失败";
 
     public final static String SBO_ORDER_IS_EMPTY = "订单信息为空";

@@ -43,9 +43,7 @@ public class SalesDeliveryServie implements IStockDocumentService {
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
-            XxlJobLogger.log(String.valueOf(boRepositoryBusinessOne.hashCode()));
             company = boRepositoryBusinessOne.getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.SALES_DELIVERY);
 
             document.setCardCode(order.getBusinessPartnerCode());
@@ -91,10 +89,10 @@ public class SalesDeliveryServie implements IStockDocumentService {
                 opRst.setThirdId(company.getNewObjectKey());
             }
         }catch (Exception e){
-            XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
             }
