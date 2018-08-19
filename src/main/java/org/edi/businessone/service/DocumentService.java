@@ -60,7 +60,6 @@ public class DocumentService {
         }finally {
             System.gc();
         }
-
     }
 
     @GET

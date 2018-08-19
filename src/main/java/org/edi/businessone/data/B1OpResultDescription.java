@@ -33,4 +33,6 @@ public class B1OpResultDescription extends OpResultDescription {
     public final static String SBO_TRANSREQUEST_CREATE_TRANSORDER = "[%d]号库存转储请求生成库存转储单";
 
     public final static String SBO_DRAFT_CREATE_ORDER = "[%d]号草稿生成单据";
+
+    public final static String SBO_DRAFT_UPDATE_FAILED = "%d草稿更新失败";
 }
