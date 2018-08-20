@@ -4,6 +4,7 @@ import com.sap.smb.sbo.api.SBOCOMUtil;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.SBOResult;
+import org.edi.freamwork.data.Result;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.freamwork.data.operation.OpResultCode;
@@ -28,12 +29,12 @@ public class DocumentService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/documents")
-    public OpResult<SBOResult> createDocument(List<StockReport> stockReports) {
-        OpResult<SBOResult> opResult;
+    public Result<SBOResult> createDocument(List<StockReport> stockReports) {
+        Result<SBOResult> result;
         if (stockReports == null) {
-            return new OpResult(OpResultCode.OBJECT_IS_EMPTY, OpResultDescription.VALUE_IS_EMPTY);
+            return new Result(OpResultCode.OBJECT_IS_EMPTY, OpResultDescription.VALUE_IS_EMPTY);
         }
-        opResult = new OpResult<>();
+        result = new Result<>();
         IStockDocumentService service;
         SBOResult sboResult;
         try{
@@ -42,21 +43,21 @@ public class DocumentService {
                 try {
                     sboResult.setUniquekey(stockReport.getDocEntry().toString());
                     service = documentServiceFactory.getServiceInstance(stockReport);
-                    IOpResult result = service.createDocuments(stockReport);
-                    sboResult.setCode(result.getCode());
-                    sboResult.setMessage(result.getMessage());
-                    sboResult.setReturnEntry(result.getThirdId());
+                    IOpResult rst = service.createDocuments(stockReport);
+                    sboResult.setCode(rst.getCode());
+                    sboResult.setMessage(rst.getMessage());
+                    sboResult.setReturnEntry(rst.getThirdId());
                 } catch (Exception e) {
                     sboResult.setCode(B1OpResultCode.EXCEPTION_CODE);
                     sboResult.setMessage(e.getMessage());
                 }
-                opResult.getResultObject().add(sboResult);
+                result.getData().add(sboResult);
             }
-            opResult.setCode(B1OpResultCode.OK);
-            opResult.setMessage(B1OpResultDescription.OK);
-            return opResult;
+            result.setCode(B1OpResultCode.OK);
+            result.setMessage(B1OpResultDescription.OK);
+            return result;
         }catch(Exception e){
-            return new OpResult(B1OpResultCode.EXCEPTION_CODE, B1OpResultDescription.SBO_INNER_ERROR + e.getMessage());
+            return new Result(B1OpResultCode.EXCEPTION_CODE, B1OpResultDescription.SBO_INNER_ERROR + e.getMessage());
         }finally {
             System.gc();
         }
