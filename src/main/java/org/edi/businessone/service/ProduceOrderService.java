@@ -8,6 +8,7 @@ import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
+import org.edi.businessone.data.SBOClassData;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
@@ -30,6 +31,7 @@ public class ProduceOrderService implements IStockDocumentService{
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
+        BORepositoryBusinessOne boRepositoryBusinessOne = null;
         ICompany company = null;
         try
         {
@@ -40,9 +42,8 @@ public class ProduceOrderService implements IStockDocumentService{
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
             XxlJobLogger.log(String.valueOf(company.hashCode()));
-            //BORepositoryBusinessOne boRepositoryBusinessOne = new BORepositoryBusinessOne();
-            //company = boRepositoryBusinessOne.connect();
-            //company = boRepositoryBusinessOne.getCompany();
+            boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
+            company = boRepositoryBusinessOne.getCompany();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PRODUCE_ORDER);
 
             document.setCardCode(order.getBusinessPartnerCode());
@@ -50,6 +51,7 @@ public class ProduceOrderService implements IStockDocumentService{
             document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
             document.setVatDate(DateConvert.toDate(order.getPostingDate()));
             document.setComments(order.getRemarks());
+            document.getUserFields().getFields().item(SBOClassData.SBO_WM_DOCENTRY).setValue(order.getDocEntry());
             for (IStockReportItem item:order.getStockReportItems()) {
                 document.getLines().setItemCode(item.getItemCode());
                 document.getLines().setItemDescription(item.getItemDescription());
@@ -73,7 +75,8 @@ public class ProduceOrderService implements IStockDocumentService{
         }catch (Exception e){
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
                 company.release();

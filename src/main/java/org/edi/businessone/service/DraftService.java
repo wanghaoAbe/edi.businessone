@@ -7,6 +7,7 @@ import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
+import org.edi.businessone.data.SBOClassData;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
@@ -37,19 +38,24 @@ public class DraftService implements IStockDocumentService {
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
-            XxlJobLogger.log(String.valueOf(boRepositoryBusinessOne.hashCode()));
             company = boRepositoryBusinessOne.getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             IDocuments document = SBOCOMUtil.newDocuments(company, DocumentType.DRAFT);
             document.setDocObjectCode(getBusinessObject(order.getBaseDocumentType()));
             if(document.getByKey(order.getBaseDocumentEntry())){
-                int rt = document.add();
-                opRst.setCode(String.valueOf(rt));
-                opRst.setMessage(company.getLastErrorCode() + ":"
-                        + company.getLastErrorDescription());
-                if(rt == 0) {
-                    opRst.setThirdId(company.getNewObjectKey());
+                document.getUserFields().getFields().item(SBOClassData.SBO_WM_DOCENTRY).setValue(order.getDocEntry());
+                if(document.update()== 0){
+                    int rt = document.saveDraftToDocument();
+                    opRst.setCode(String.valueOf(rt));
+                    opRst.setMessage(company.getLastErrorCode() + ":"
+                            + company.getLastErrorDescription());
+                    if(rt == 0) {
+                        opRst.setThirdId(company.getNewObjectKey());
+                    }
+                }else {
+                    opRst.setCode("-1");
+                    opRst.setMessage(String.format(B1OpResultDescription.SBO_DRAFT_UPDATE_FAILED,order.getDocEntry()));
                 }
+
             }else {
                 opRst.setCode("-1");
                 opRst.setMessage(String.format(B1OpResultDescription.SBO_CAN_NOT_FIND_DRAFT,order.getBaseDocumentEntry()));
@@ -58,7 +64,8 @@ public class DraftService implements IStockDocumentService {
             XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
             }

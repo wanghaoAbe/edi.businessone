@@ -7,6 +7,7 @@ import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
+import org.edi.businessone.data.SBOClassData;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.CompanyManager;
 import org.edi.businessone.db.IB1Connection;
@@ -39,13 +40,10 @@ public class SalesDeliveryServie implements IStockDocumentService {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
-            XxlJobLogger.log(String.format(B1OpResultDescription.SBO_SALESORDER_CREATE_SALESDELIVERY,order.getDocEntry()));
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
-            XxlJobLogger.log(String.valueOf(boRepositoryBusinessOne.hashCode()));
             company = boRepositoryBusinessOne.getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.SALES_DELIVERY);
 
             document.setCardCode(order.getBusinessPartnerCode());
@@ -53,7 +51,7 @@ public class SalesDeliveryServie implements IStockDocumentService {
             document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
             document.setVatDate(DateConvert.toDate(order.getPostingDate()));
             document.setComments(order.getRemarks());
-
+            document.getUserFields().getFields().item(SBOClassData.SBO_WM_DOCENTRY).setValue(order.getDocEntry());
             for (IStockReportItem item:order.getStockReportItems()) {
                 document.getLines().setItemCode(item.getItemCode());
                 document.getLines().setItemDescription(item.getItemDescription());
@@ -91,10 +89,10 @@ public class SalesDeliveryServie implements IStockDocumentService {
                 opRst.setThirdId(company.getNewObjectKey());
             }
         }catch (Exception e){
-            XxlJobLogger.log(e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
-        }finally {
+        }
+        finally {
             if(company != null){
                 company.disconnect();
             }
