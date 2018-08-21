@@ -10,6 +10,8 @@ import org.edi.freamwork.data.operation.OpResult;
 import org.edi.freamwork.data.operation.OpResultCode;
 import org.edi.freamwork.data.operation.OpResultDescription;
 import org.edi.stocktask.bo.stockreport.StockReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +24,7 @@ import java.util.List;
  */
 @Path("/v1")
 public class DocumentService {
-
+    Logger logger = LoggerFactory.getLogger(DocumentService.class);
     private DocumentServiceFactory documentServiceFactory = new DocumentServiceFactory();
 
     @POST
@@ -44,9 +46,12 @@ public class DocumentService {
                     sboResult.setUniquekey(stockReport.getDocEntry().toString());
                     service = documentServiceFactory.getServiceInstance(stockReport);
                     IOpResult rst = service.createDocuments(stockReport);
+                    if(rst.getCode() == OpResultCode.SUCCESS){
+                        sboResult.setReturnEntry(rst.getThirdId());
+                    }
                     sboResult.setCode(rst.getCode());
                     sboResult.setMessage(rst.getMessage());
-                    sboResult.setReturnEntry(rst.getThirdId());
+
                 } catch (Exception e) {
                     sboResult.setCode(B1OpResultCode.EXCEPTION_CODE);
                     sboResult.setMessage(e.getMessage());
@@ -57,6 +62,7 @@ public class DocumentService {
             result.setMessage(B1OpResultDescription.OK);
             return result;
         }catch(Exception e){
+            logger.info("单据生成异常：",e);
             return new Result(B1OpResultCode.EXCEPTION_CODE, B1OpResultDescription.SBO_INNER_ERROR + e.getMessage());
         }finally {
             System.gc();

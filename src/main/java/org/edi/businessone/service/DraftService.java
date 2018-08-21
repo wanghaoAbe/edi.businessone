@@ -16,12 +16,14 @@ import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 草稿单据服务
  */
 public class DraftService implements IStockDocumentService {
-
+    Logger logger = LoggerFactory.getLogger(DraftService.class);
     private CompanyManager companyManager = new CompanyManager();
 
     @Override
@@ -34,7 +36,8 @@ public class DraftService implements IStockDocumentService {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
-            XxlJobLogger.log(String.format(B1OpResultDescription.SBO_DRAFT_CREATE_ORDER,order.getDocEntry()));
+            logger.info(String.format(B1OpResultDescription.SBO_DRAFT_CREATE_ORDER,order.getDocEntry()));
+            logger.info("单据信息>>>>>>>>>>" + order.toString());
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
@@ -51,6 +54,7 @@ public class DraftService implements IStockDocumentService {
                     if(rt == 0) {
                         opRst.setThirdId(company.getNewObjectKey());
                     }
+                    logger.info(opRst.getCode()+";"+opRst.getMessage());
                 }else {
                     opRst.setCode("-1");
                     opRst.setMessage(String.format(B1OpResultDescription.SBO_DRAFT_UPDATE_FAILED,order.getDocEntry()));
