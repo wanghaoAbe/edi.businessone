@@ -36,7 +36,7 @@ public class DocumentService {
     @Path("/documents")
     public Result<SBOResult> createDocument(List<StockReport> stockReports) {
         Result<SBOResult> result;
-        logger.info(B1OpResultDescription.SBO_DOCUMENT_INFO,stockReports.toString());
+        logger.info(B1OpResultDescription.SBO_DOCUMENT_INFO + stockReports.toString());
         if (stockReports == null) {
             return new Result(OpResultCode.OBJECT_IS_EMPTY, OpResultDescription.VALUE_IS_EMPTY);
         }
@@ -64,7 +64,7 @@ public class DocumentService {
             }
             result.setCode(B1OpResultCode.OK);
             result.setMessage(B1OpResultDescription.OK);
-            //logger.info();
+            logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_INFO + result.toString());
             return result;
         }catch(Exception e){
             logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
