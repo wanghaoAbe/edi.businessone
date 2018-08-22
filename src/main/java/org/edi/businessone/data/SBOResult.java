@@ -40,5 +40,13 @@ public class SBOResult {
         this.returnEntry = returnEntry;
     }
 
-
+    @Override
+    public String toString() {
+        return "{" +
+                "code:'" + code + '\'' +
+                ", uniquekey:'" + uniquekey + '\'' +
+                ", message:'" + message + '\'' +
+                ", returnEntry:'" + returnEntry + '\'' +
+                '}';
+    }
 }

@@ -19,9 +19,12 @@ import org.edi.freamwork.data.operation.OpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
 import org.edi.stocktask.bo.stockreport.StockReportMaterialItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PurchaseDeliveryService implements IStockDocumentService {
 
+    Logger logger = LoggerFactory.getLogger(PurchaseDeliveryService.class);
     private CompanyManager companyManager = new CompanyManager();
 
 
@@ -92,6 +95,7 @@ public class PurchaseDeliveryService implements IStockDocumentService {
             }
             opRst.setCode(String.valueOf(rt));
         }catch (Exception e){
+            logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage() +"|"+ e.getCause());
         }
