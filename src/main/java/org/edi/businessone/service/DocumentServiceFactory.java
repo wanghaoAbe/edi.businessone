@@ -19,6 +19,8 @@ public class DocumentServiceFactory {
             case DocumentType.GOODS_RECEIPTS_DRAFT:
             case DocumentType.PURCHASE_DELIVERY_DRAFT:
             case DocumentType.PURCHASE_RETURN_DRAFT:
+            case DocumentType.PURCHASE_INVOICE_DRAFT:
+            case DocumentType.SALES_INVOICE_DRAFT:
             case DocumentType.SALES_DELIVERY_DRAFT:
             case DocumentType.STOCK_TRANSFER_DRAFT:
             case DocumentType.SALES_RETURN_DRAFT: service = new DraftService();break;
