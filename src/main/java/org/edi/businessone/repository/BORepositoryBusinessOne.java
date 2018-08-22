@@ -54,7 +54,6 @@ public class BORepositoryBusinessOne {
     public final ICompany getCompany() throws B1Exception {
         synchronized (BORepositoryBusinessOne.class) {
             if (null == company || !company.isConnected()) {
-                XxlJobLogger.log("开始连接");
                 return this.connect();
             } else {
                 return company;

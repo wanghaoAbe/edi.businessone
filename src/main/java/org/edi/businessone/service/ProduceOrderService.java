@@ -46,7 +46,7 @@ public class ProduceOrderService implements IStockDocumentService{
             XxlJobLogger.log(String.valueOf(company.hashCode()));
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
             company = boRepositoryBusinessOne.getCompany();
-            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.PRODUCE_ORDER);
+            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.getBusinessObject(order.getTargetDocumentType()));
 
             document.setCardCode(order.getBusinessPartnerCode());
             document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );

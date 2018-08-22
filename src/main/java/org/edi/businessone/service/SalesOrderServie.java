@@ -3,7 +3,6 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
-import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -22,9 +21,9 @@ import org.edi.stocktask.bo.stockreport.StockReportMaterialItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SalesDeliveryServie implements IStockDocumentService {
+public class SalesOrderServie implements IStockDocumentService {
 
-    Logger logger = LoggerFactory.getLogger(SalesDeliveryServie.class);
+    Logger logger = LoggerFactory.getLogger(SalesOrderServie.class);
     private CompanyManager companyManager = new CompanyManager();
 
 
@@ -47,7 +46,7 @@ public class SalesDeliveryServie implements IStockDocumentService {
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
             company = boRepositoryBusinessOne.getCompany();
-            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.SALES_DELIVERY);
+            IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.getBusinessObject(order.getTargetDocumentType()));
 
             document.setCardCode(order.getBusinessPartnerCode());
             document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );

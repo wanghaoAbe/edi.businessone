@@ -12,13 +12,15 @@ public class DocumentServiceFactory {
 
     public IStockDocumentService getServiceInstance(IStockReport document){
         switch (document.getBaseDocumentType()){
-            case "17":service = new SalesDeliveryServie();break;
-            case "22":service = new PurchaseDeliveryService();break;
-            case "1250000001":service = new StockTransferService();break;
+            case "17":service = new SalesOrderServie();break;
+            case "22":service = new PurchaseOrderService();break;
+            case "1250000001":service = new StockTransferRequestService();break;
             case DocumentType.GOODS_ISSUES_DRAFT:
             case DocumentType.GOODS_RECEIPTS_DRAFT:
             case DocumentType.PURCHASE_DELIVERY_DRAFT:
             case DocumentType.PURCHASE_RETURN_DRAFT:
+            case DocumentType.PURCHASE_INVOICE_DRAFT:
+            case DocumentType.SALES_INVOICE_DRAFT:
             case DocumentType.SALES_DELIVERY_DRAFT:
             case DocumentType.STOCK_TRANSFER_DRAFT:
             case DocumentType.SALES_RETURN_DRAFT: service = new DraftService();break;
