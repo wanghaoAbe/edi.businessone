@@ -18,6 +18,8 @@ import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.edi.stocktask.bo.stockreport.IStockReportItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 
@@ -26,7 +28,7 @@ import java.sql.Date;
  * @date 2018/7/30
  */
 public class ProduceOrderService implements IStockDocumentService{
-
+    Logger logger = LoggerFactory.getLogger(ProduceOrderService.class);
     private CompanyManager companyManager = new CompanyManager();
     @Override
     public IOpResult createDocuments(IStockReport order) {
@@ -73,6 +75,7 @@ public class ProduceOrderService implements IStockDocumentService{
                 opRst.setThirdId(company.getNewObjectKey());
             }
         }catch (Exception e){
+            logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
         }

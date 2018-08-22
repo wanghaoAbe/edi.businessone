@@ -27,6 +27,10 @@ public class DocumentType {
      */
     public static final Integer SALES_ORDER = 17;
 
+    /**
+     * 应付发票
+     */
+    public static final Integer PURCHASE_INVOICE = 18;
 
     /**
      * 采购收货

@@ -16,14 +16,15 @@ import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
 import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 草稿单据服务
  */
 public class DraftService implements IStockDocumentService {
-
+    Logger logger = LoggerFactory.getLogger(DraftService.class);
     private CompanyManager companyManager = new CompanyManager();
-
     @Override
     public IOpResult createDocuments(IStockReport order) {
         IOpResult opRst = new OpResult();
@@ -34,7 +35,7 @@ public class DraftService implements IStockDocumentService {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
-            XxlJobLogger.log(String.format(B1OpResultDescription.SBO_DRAFT_CREATE_ORDER,order.getDocEntry()));
+            logger.info(String.format(B1OpResultDescription.SBO_DRAFT_CREATE_ORDER,order.getDocEntry()));
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
@@ -51,6 +52,7 @@ public class DraftService implements IStockDocumentService {
                     if(rt == 0) {
                         opRst.setThirdId(company.getNewObjectKey());
                     }
+                    logger.info(opRst.getCode()+";"+opRst.getMessage());
                 }else {
                     opRst.setCode("-1");
                     opRst.setMessage(String.format(B1OpResultDescription.SBO_DRAFT_UPDATE_FAILED,order.getDocEntry()));
@@ -61,7 +63,7 @@ public class DraftService implements IStockDocumentService {
                 opRst.setMessage(String.format(B1OpResultDescription.SBO_CAN_NOT_FIND_DRAFT,order.getBaseDocumentEntry()));
             }
         }catch (Exception e){
-            XxlJobLogger.log(e);
+            logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage());
         }
@@ -82,8 +84,10 @@ public class DraftService implements IStockDocumentService {
             throw new BusinessException(B1OpResultDescription.SBO_ORDER_BASE_TYPE_FORMAT_ERROR);
         }
         switch (types[1]){
+            case "13":return DocumentType.SALES_INVOICE;
             case "15":return DocumentType.SALES_DELIVERY;
             case "16":return DocumentType.SALES_RETURN;
+            case "18":return DocumentType.PURCHASE_INVOICE;
             case "20":return DocumentType.PURCHASE_DELIVERY;
             case "21":return DocumentType.PURCHASE_RETURN;
             case "59":return DocumentType.GOODS_RECEIPTS;

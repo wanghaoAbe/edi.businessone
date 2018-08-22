@@ -35,4 +35,12 @@ public class B1OpResultDescription extends OpResultDescription {
     public final static String SBO_DRAFT_CREATE_ORDER = "[%d]号草稿生成单据";
 
     public final static String SBO_DRAFT_UPDATE_FAILED = "%d草稿更新失败";
+
+    public final static String SBO_DOCUMENT_INFO = "单据信息>>>>>>>>>";
+
+    public final static String SBO_DOCUMENT_CREATE_RETURN_INFO = "单据生成返回信息：";
+
+    public final static String SBO_DOCUMENT_CREATE_RETURN_EXCEPTION = "单据生成异常信息：";
+
+
 }
