@@ -47,6 +47,14 @@ public class DocumentService {
             for (StockReport stockReport : stockReports) {
                 sboResult = new SBOResult();
                 try {
+                    if(stockReport.getDocumentStatus().equals("C")){
+                        sboResult.setReturnEntry(stockReport.getB1DocEntry().toString());
+                        sboResult.setUniquekey(stockReport.getDocEntry().toString());
+                        sboResult.setCode(B1OpResultCode.OK);
+                        sboResult.setMessage(B1OpResultDescription.OK);
+                        result.getData().add(sboResult);
+                        continue;
+                    }
                     sboResult.setUniquekey(stockReport.getDocEntry().toString());
                     service = documentServiceFactory.getServiceInstance(stockReport);
                     IOpResult rst = service.createDocuments(stockReport);
@@ -55,7 +63,6 @@ public class DocumentService {
                     }
                     sboResult.setCode(rst.getCode());
                     sboResult.setMessage(rst.getMessage());
-
                 } catch (Exception e) {
                     sboResult.setCode(B1OpResultCode.EXCEPTION_CODE);
                     sboResult.setMessage(e.getMessage());

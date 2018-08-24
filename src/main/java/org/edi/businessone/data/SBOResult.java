@@ -8,13 +8,13 @@ import org.edi.freamwork.bo.IBusinessObject;
  */
 public class SBOResult {
 
-    public String code;
+    private String code;
 
     public String getCode(){return code;}
 
     public void setCode(String code){this.code = code;}
 
-    public String uniquekey;
+    private String uniquekey;
 
     public String getUniquekey(){return uniquekey;}
 
@@ -22,7 +22,7 @@ public class SBOResult {
         this.uniquekey = uniquekey;
     }
 
-    public String message;
+    private String message;
 
     public String getMessage(){
         return message;
@@ -32,7 +32,7 @@ public class SBOResult {
         this.message = message;
     }
 
-    public String returnEntry;
+    private String returnEntry;
 
     public String getReturnEntry(){return returnEntry;}
 
