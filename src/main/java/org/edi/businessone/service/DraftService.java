@@ -3,7 +3,6 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
-import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -14,7 +13,6 @@ import org.edi.businessone.db.IB1Connection;
 import org.edi.businessone.repository.BORepositoryBusinessOne;
 import org.edi.freamwork.data.operation.IOpResult;
 import org.edi.freamwork.data.operation.OpResult;
-import org.edi.freamwork.exception.BusinessException;
 import org.edi.stocktask.bo.stockreport.IStockReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,17 +45,17 @@ public class DraftService implements IStockDocumentService {
                 if(document.update()== 0){
                     int rt = document.saveDraftToDocument();
                     opRst.setCode(String.valueOf(rt));
-                    opRst.setMessage(company.getLastErrorCode() + ":"
-                            + company.getLastErrorDescription());
                     if(rt == 0) {
+                        opRst.setMessage(B1OpResultDescription.SBO_ORDER_CREATE_SUCCESS);
                         opRst.setThirdId(company.getNewObjectKey());
+                    }else {
+                        opRst.setMessage(company.getLastErrorCode() + ":"
+                                + company.getLastErrorDescription());
                     }
-                    logger.info(opRst.getCode()+";"+opRst.getMessage());
                 }else {
                     opRst.setCode("-1");
                     opRst.setMessage(String.format(B1OpResultDescription.SBO_DRAFT_UPDATE_FAILED,order.getDocEntry()));
                 }
-
             }else {
                 opRst.setCode("-1");
                 opRst.setMessage(String.format(B1OpResultDescription.SBO_CAN_NOT_FIND_DRAFT,order.getBaseDocumentEntry()));
@@ -74,8 +72,4 @@ public class DraftService implements IStockDocumentService {
         }
         return opRst;
     }
-
-
-
-
 }

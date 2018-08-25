@@ -2,6 +2,7 @@ package org.edi.businessone.service;
 
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IStockTransfer;
+import com.sap.smb.sbo.api.SBOCOMConstants;
 import com.sap.smb.sbo.api.SBOCOMUtil;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
@@ -58,7 +59,8 @@ public class StockTransferRequestService implements IStockDocumentService {
                 document.getLines().setWarehouseCode(item.getToWarehouse());
                 document.getLines().setFromWarehouseCode(item.getFromWarehose());
                 if(String.valueOf(DocumentType.STOCK_TRANSFER_REQUEST).equals(order.getBaseDocumentType())){
-                    document.getLines().setBaseType(DocumentType.STOCK_TRANSFER_REQUEST);
+                    //document.getLines().setBaseType(DocumentType.STOCK_TRANSFER_REQUEST);
+                    document.getLines().setBaseType(SBOCOMConstants.BoObjectTypes_StockTransfer_oInventoryTransferRequest);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
@@ -66,10 +68,12 @@ public class StockTransferRequestService implements IStockDocumentService {
             }
             int rt = document.add();
             opRst.setCode(String.valueOf(rt));
-            opRst.setMessage(company.getLastErrorCode() + ":"
-                    + company.getLastErrorDescription());
             if(rt == 0) {
+                opRst.setMessage(B1OpResultDescription.SBO_ORDER_CREATE_SUCCESS);
                 opRst.setThirdId(company.getNewObjectKey());
+            }else {
+                opRst.setMessage(company.getLastErrorCode() + ":"
+                        + company.getLastErrorDescription());
             }
         }catch (Exception e){
             logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);

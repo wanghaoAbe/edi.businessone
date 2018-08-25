@@ -85,10 +85,12 @@ public class SalesOrderServie implements IStockDocumentService {
             }
             int rt = document.add();
             opRst.setCode(String.valueOf(rt));
-            opRst.setMessage(company.getLastErrorCode() + ":"
-                    + company.getLastErrorDescription());
             if(rt == 0) {
+                opRst.setMessage(B1OpResultDescription.SBO_ORDER_CREATE_SUCCESS);
                 opRst.setThirdId(company.getNewObjectKey());
+            }else {
+                opRst.setMessage(company.getLastErrorCode() + ":"
+                        + company.getLastErrorDescription());
             }
         }catch (Exception e){
             logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);

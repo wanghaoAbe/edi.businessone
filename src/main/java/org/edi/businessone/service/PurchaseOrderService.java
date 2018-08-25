@@ -85,15 +85,14 @@ public class PurchaseOrderService implements IStockDocumentService {
                 document.getLines().add();
             }
             int rt = document.add();
-
+            opRst.setCode(String.valueOf(rt));
             if(rt == 0) {
-                opRst.setMessage("生成成功");
+                opRst.setMessage(B1OpResultDescription.SBO_ORDER_CREATE_SUCCESS);
                 opRst.setThirdId(company.getNewObjectKey());
             }else {
                 opRst.setMessage(company.getLastErrorCode() + ":"
                         + company.getLastErrorDescription());
             }
-            opRst.setCode(String.valueOf(rt));
         }catch (Exception e){
             logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
