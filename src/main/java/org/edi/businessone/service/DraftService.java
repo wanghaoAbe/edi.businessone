@@ -45,17 +45,17 @@ public class DraftService implements IStockDocumentService {
                 if(document.update()== 0){
                     int rt = document.saveDraftToDocument();
                     opRst.setCode(String.valueOf(rt));
-                    opRst.setMessage(company.getLastErrorCode() + ":"
-                            + company.getLastErrorDescription());
                     if(rt == 0) {
+                        opRst.setMessage(B1OpResultDescription.SBO_ORDER_CREATE_SUCCESS);
                         opRst.setThirdId(company.getNewObjectKey());
+                    }else {
+                        opRst.setMessage(company.getLastErrorCode() + ":"
+                                + company.getLastErrorDescription());
                     }
-                    logger.info(opRst.getCode()+";"+opRst.getMessage());
                 }else {
                     opRst.setCode("-1");
                     opRst.setMessage(String.format(B1OpResultDescription.SBO_DRAFT_UPDATE_FAILED,order.getDocEntry()));
                 }
-
             }else {
                 opRst.setCode("-1");
                 opRst.setMessage(String.format(B1OpResultDescription.SBO_CAN_NOT_FIND_DRAFT,order.getBaseDocumentEntry()));
