@@ -1,6 +1,5 @@
 package org.edi.businessone.repository;
 
-import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.db.B1Exception;
 import org.edi.businessone.db.IB1Connection;
 import com.sap.smb.sbo.api.*;
@@ -87,7 +86,7 @@ public class BORepositoryBusinessOne {
 
             int connectionResult = company.connect();
             if (connectionResult == 0) {
-                XxlJobLogger.log("Successfully connected to " + company.getCompanyName());
+                //XxlJobLogger.log("Successfully connected to " + company.getCompanyName());
             } else {
                 SBOErrorMessage errMsg = company.getLastError();
                 throw new B1Exception("Cannot connect to server: "
@@ -97,7 +96,7 @@ public class BORepositoryBusinessOne {
             }
             return company;
         }catch (Exception e){
-            XxlJobLogger.log(e);
+            //XxlJobLogger.log(e);
             throw new B1Exception(e);
         }
     }

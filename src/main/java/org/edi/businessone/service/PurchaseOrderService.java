@@ -3,7 +3,6 @@ package org.edi.businessone.service;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
-import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -43,8 +42,7 @@ public class PurchaseOrderService implements IStockDocumentService {
             if(null == order) {
                 throw new B1Exception(B1OpResultDescription.SBO_ORDER_IS_EMPTY);
             }
-            XxlJobLogger.log(String.format(B1OpResultDescription.SBO_PUCHASEORDER_CREATE_PURCHASEDELIVERY_DRAFT,order.getDocEntry()));
-            //获取B1连接
+           //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
             company = boRepositoryBusinessOne.getCompany();

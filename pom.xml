@@ -12,18 +12,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <b1.version>9.2</b1.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>ibas-maven</id>
-            <name>ibas maven repository</name>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
@@ -83,5 +73,24 @@
             <version>0.1.0</version>
         </dependency>
     </dependencies>
-
+    <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <webXml>web\WEB-INF\web.xml</webXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

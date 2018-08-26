@@ -4,7 +4,6 @@ import com.sap.smb.sbo.api.Company;
 import com.sap.smb.sbo.api.ICompany;
 import com.sap.smb.sbo.api.IDocuments;
 import com.sap.smb.sbo.api.SBOCOMUtil;
-import com.xxl.job.core.log.XxlJobLogger;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.DocumentType;
@@ -43,7 +42,6 @@ public class ProduceOrderService implements IStockDocumentService{
             //获取B1连接
             IB1Connection dbConnection  = companyManager.getB1ConnInstance(order.getCompanyName());
             company = BORepositoryBusinessOne.getInstance(dbConnection).getCompany();
-            XxlJobLogger.log(String.valueOf(company.hashCode()));
             boRepositoryBusinessOne = BORepositoryBusinessOne.getInstance(dbConnection);
             company = boRepositoryBusinessOne.getCompany();
             IDocuments document = SBOCOMUtil.newDocuments(company,DocumentType.getBusinessObject(order.getTargetDocumentType()));
