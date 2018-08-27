@@ -60,7 +60,7 @@ public class StockTransferRequestService implements IStockDocumentService {
                 document.getLines().setFromWarehouseCode(item.getFromWarehose());
                 if(String.valueOf(DocumentType.STOCK_TRANSFER_REQUEST).equals(order.getBaseDocumentType())){
                     //document.getLines().setBaseType(DocumentType.STOCK_TRANSFER_REQUEST);
-                    document.getLines().setBaseType(SBOCOMConstants.BoObjectTypes_StockTransfer_oInventoryTransferRequest);
+                    document.getLines().setBaseType(SBOCOMConstants.InvBaseDocTypeEnum_InventoryTransferRequest);
                     document.getLines().setBaseEntry(item.getBaseDocumentEntry());
                     document.getLines().setBaseLine(item.getBaseDocumentLineId());
                 }
