@@ -92,7 +92,7 @@ public class PurchaseOrderService implements IStockDocumentService {
                         + company.getLastErrorDescription());
             }
         }catch (Exception e){
-            logger.info(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
+            logger.error(B1OpResultDescription.SBO_DOCUMENT_CREATE_RETURN_EXCEPTION,e);
             opRst.setCode(B1OpResultCode.EXCEPTION_CODE);
             opRst.setMessage(e.getMessage() +"|"+ e.getCause());
         }
