@@ -55,7 +55,7 @@ public class DraftService implements IStockDocumentService {
                 document.getLines().setQuantity(item.getQuantity());
                 document.getLines().setPrice(item.getPrice());
                 document.getLines().setWarehouseCode(item.getToWarehouse());
-                if( item.getOriginalDocumentType() != null && !item.getOriginalDocumentType().isEmpty()){
+                if( item.getOriginalDocumentType() != null && !item.getOriginalDocumentType().isEmpty() && !item.getOriginalDocumentType().equals("-1")){
                     document.getLines().setBaseType(DocumentType.getBusinessObject(item.getOriginalDocumentType()));
                     document.getLines().setBaseEntry(item.getOriginalDocumentEntry());
                     document.getLines().setBaseLine(item.getOriginalDocumentLineId());

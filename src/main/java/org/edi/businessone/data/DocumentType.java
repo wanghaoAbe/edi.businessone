@@ -2,6 +2,8 @@ package org.edi.businessone.data;
 
 import org.edi.freamwork.exception.BusinessException;
 
+import javax.swing.text.Document;
+
 public class DocumentType {
 
     /**
@@ -146,13 +148,16 @@ public class DocumentType {
             case "13":return DocumentType.SALES_INVOICE;
             case "15":return DocumentType.SALES_DELIVERY;
             case "16":return DocumentType.SALES_RETURN;
+            case "17":return DocumentType.SALES_ORDER;
             case "18":return DocumentType.PURCHASE_INVOICE;
             case "20":return DocumentType.PURCHASE_DELIVERY;
             case "21":return DocumentType.PURCHASE_RETURN;
+            case "22":return DocumentType.PURCHASE_ORDER;
             case "59":return DocumentType.GOODS_RECEIPTS;
             case "60":return DocumentType.GOODS_ISSUES;
             case "67":return DocumentType.STOCK_TRANSFER;
-            default:throw new BusinessException(B1OpResultDescription.SBO_ORDER_BASE_TYPE_IS_EMPTY_OR_INVALID);
+            case "1250000001":return DocumentType.STOCK_TRANSFER_REQUEST;
+            default:throw new BusinessException(String.format(B1OpResultDescription.SBO_ORDER_BASE_TYPE_IS_EMPTY_OR_INVALID,objType));
         }
     }
 
