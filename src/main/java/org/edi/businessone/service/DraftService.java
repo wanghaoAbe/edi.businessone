@@ -63,7 +63,7 @@ public class DraftService implements IStockDocumentService {
     }
 
     private IOpResult createDocumentsByOrder(ICompany company, IStockReport order) throws SBOCOMException, ParseException {
-        IOpResult opRst = null;
+        IOpResult opRst = new OpResult();
         IDocuments document = SBOCOMUtil.newDocuments(company, DocumentType.getBusinessObject(order.getTargetDocumentType()));
         document.setCardCode(order.getBusinessPartnerCode());
         document.setDocDate(DateConvert.toDate(order.getDocumentDate()));
@@ -97,7 +97,7 @@ public class DraftService implements IStockDocumentService {
     }
 
     private IOpResult createDocumentsByDraft(ICompany company,IStockReport order) throws SBOCOMException {
-        IOpResult opRst = null;
+        IOpResult opRst = new OpResult();
         IDocuments document = SBOCOMUtil.newDocuments(company, DocumentType.DRAFT);
         document.setDocObjectCode(DocumentType.getBusinessObject(order.getBaseDocumentType()));
         if(document.getByKey(order.getBaseDocumentEntry())){
