@@ -54,7 +54,6 @@ public class ProduceOrderService implements IStockDocumentService{
             document.getUserFields().getFields().item(SBOClassData.SBO_WM_DOCENTRY).setValue(order.getDocEntry());
             for (IStockReportItem item:order.getStockReportItems()) {
                 document.getLines().setItemCode(item.getItemCode());
-                document.getLines().setItemDescription(item.getItemDescription());
                 document.getLines().setQuantity(item.getQuantity());
                 document.getLines().setPrice(item.getPrice());
                 document.getLines().setWarehouseCode(item.getToWarehouse());
