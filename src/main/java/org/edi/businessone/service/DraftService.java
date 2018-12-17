@@ -96,11 +96,14 @@ public class DraftService implements IStockDocumentService {
         return opRst;
     }
 
-    private IOpResult createDocumentsByDraft(ICompany company,IStockReport order) throws SBOCOMException {
+    private IOpResult createDocumentsByDraft(ICompany company,IStockReport order) throws SBOCOMException,Exception{
         IOpResult opRst = new OpResult();
         IDocuments document = SBOCOMUtil.newDocuments(company, DocumentType.DRAFT);
         document.setDocObjectCode(DocumentType.getBusinessObject(order.getBaseDocumentType()));
         if(document.getByKey(order.getBaseDocumentEntry())){
+            document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
+            document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
+            document.setDueDate(DateConvert.toDate(order.getPostingDate()));
             document.getUserFields().getFields().item(SBOClassData.SBO_WM_DOCENTRY).setValue(order.getDocEntry());
             if(document.update()== 0){
                 int rt = document.saveDraftToDocument();
