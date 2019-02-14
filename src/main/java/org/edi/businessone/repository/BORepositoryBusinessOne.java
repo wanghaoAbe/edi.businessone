@@ -30,6 +30,18 @@ public class BORepositoryBusinessOne {
             synchronized (BORepositoryBusinessOne.class) {
                 if (null == boRepositoryBusinessOne) {
                     boRepositoryBusinessOne = new BORepositoryBusinessOne(ib1Connection);
+                }else if( boRepositoryBusinessOne != null && !boRepositoryBusinessOne.companyDB.equals(ib1Connection.getCompanyDB())){
+                    boRepositoryBusinessOne.server = ib1Connection.getServer();
+                    boRepositoryBusinessOne.companyDB = ib1Connection.getCompanyDB();
+                    boRepositoryBusinessOne.userName = ib1Connection.getUserName();
+                    boRepositoryBusinessOne.password = ib1Connection.getPassword();
+                    boRepositoryBusinessOne.laguage = ib1Connection.getLanguage();
+                    boRepositoryBusinessOne.licenseServer = ib1Connection.getLicenseServer();
+                    boRepositoryBusinessOne.sldServer = ib1Connection.getSLDServer();
+                    boRepositoryBusinessOne.dbServerType = ib1Connection.getDBServerType();
+                    boRepositoryBusinessOne.dbUsername = ib1Connection.getDBUserName();
+                    boRepositoryBusinessOne.dbPassword = ib1Connection.getDBPassword();
+                    boRepositoryBusinessOne.useTrusted = ib1Connection.getIsUserTrusted();
                 }
             }
         return boRepositoryBusinessOne;
@@ -54,7 +66,12 @@ public class BORepositoryBusinessOne {
         synchronized (BORepositoryBusinessOne.class) {
             if (null == company || !company.isConnected()) {
                 return this.connect();
-            } else {
+            } else if(company != null
+                    && boRepositoryBusinessOne != null
+                    && company.isConnected()
+                    && company.getCompanyDB().equals(boRepositoryBusinessOne.companyDB)){
+                return this.connect();
+            }else {
                 return company;
             }
         }

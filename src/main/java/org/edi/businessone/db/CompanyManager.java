@@ -72,10 +72,10 @@ public class CompanyManager {
         }
         for (IB1Connection conn:b1Connections) {
             if(companyName.equals(conn.getCompanyName())){
-                connection = conn;
+                return conn;
             }
         }
-        return connection;
+        throw new ConfigException("未找到匹配的公司信息，请检查配置");
     }
 
     private String getNodeValue(Element element,String nodeName){

@@ -14,4 +14,18 @@
         <B1Language>ln_Chinese</B1Language>
         <B1DbUseTrusted>True</B1DbUseTrusted>
     </company>
+    <company>
+        <B1CompanyName>SHYJ_TEST</B1CompanyName>
+        <DBServer>192.168.1.70</DBServer>
+        <B1Company>TEST_HT024_02</B1Company>
+        <B1User>AVACLOUD\ht024099</B1User>
+        <B1Password>Aa123456!</B1Password>
+        <B1LicenseServer>192.168.1.70:30000</B1LicenseServer>
+        <B1SLDServer>192.168.1.70:30015</B1SLDServer>
+        <B1DbType>dst_MSSQL2012</B1DbType>
+        <B1DbUser>avasa6</B1DbUser>
+        <B1DbPassword>AVAtechAVA2018!</B1DbPassword>
+        <B1Language>ln_Chinese</B1Language>
+        <B1DbUseTrusted>True</B1DbUseTrusted>
+    </company>
 </companys>
