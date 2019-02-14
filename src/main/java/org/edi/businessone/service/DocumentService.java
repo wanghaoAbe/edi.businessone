@@ -1,24 +1,18 @@
 package org.edi.businessone.service;
 
-import com.sap.smb.sbo.api.SBOCOMUtil;
 import org.edi.businessone.data.B1OpResultCode;
 import org.edi.businessone.data.B1OpResultDescription;
 import org.edi.businessone.data.BusinessOneData;
 import org.edi.businessone.data.SBOResult;
 import org.edi.freamwork.data.Result;
 import org.edi.freamwork.data.operation.IOpResult;
-import org.edi.freamwork.data.operation.OpResult;
 import org.edi.freamwork.data.operation.OpResultCode;
 import org.edi.freamwork.data.operation.OpResultDescription;
-import org.edi.freamwork.log.LogFileName;
 import org.edi.freamwork.log.LoggerUtils;
 import org.edi.stocktask.bo.stockreport.StockReport;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

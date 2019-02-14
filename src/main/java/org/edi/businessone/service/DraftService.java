@@ -103,7 +103,7 @@ public class DraftService implements IStockDocumentService {
         if(document.getByKey(order.getBaseDocumentEntry())){
             document.setDocDate(DateConvert.toDate(order.getDocumentDate()) );
             document.setTaxDate(DateConvert.toDate(order.getDeliveryDate()));
-            document.setDueDate(DateConvert.toDate(order.getPostingDate()));
+            document.setDocDueDate(DateConvert.toDate(order.getPostingDate()));
             document.getUserFields().getFields().item(SBOClassData.SBO_WM_DOCENTRY).setValue(order.getDocEntry());
             if(document.update()== 0){
                 int rt = document.saveDraftToDocument();
